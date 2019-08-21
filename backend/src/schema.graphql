@@ -1,0 +1,16 @@
+# import * from './generated/prisma.graphql'
+
+type SuccessMessage {
+  message: String
+}
+
+type Mutation {
+  createPlayer(data: PlayerCreateInput): Player!
+  createTeam(name: String!): Team!
+}
+
+type Query {
+  players(where: PlayerWhereInput): Player!
+  team(where: TeamWhereInput): Team!
+  teams(where: TeamWhereUniqueInput!): Team
+}

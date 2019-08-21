@@ -1,0 +1,49 @@
+enum Permission {
+  USER
+  ADMIN
+  MEMBERCREATE
+  MEMBERUPDATE
+  MEMBERDELETE
+  PERMISSIONUPDATE
+}
+
+type Match {
+  id: ID! @id
+  players: [Player!]! @scalarList(strategy: RELATION)
+  stats: [Stats!]!
+  teams: [Team!]! @scalarList(strategy: RELATION) @relation(name: "TeamsInMatch")
+  duration: Int!
+  winner: Team! @relation(name: "WinnerOfMatch")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Team {
+  id: ID! @id
+  name: String!
+  players: [Player!]! @scalarList(strategy: RELATION)
+  matches: [Match]! @scalarList(strategy: RELATION) @relation(name: "TeamsInMatch")
+}
+
+type Player {
+  id: ID! @id
+  summonerName: String!
+  team: Team
+  role: String
+  matches: [Match]! @scalarList(strategy: RELATION)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Stats {
+  id: ID! @id
+  player: Player!
+  match: Match!
+  role: String!
+  champion: String!
+  kills: Int!
+  deaths: Int!
+  assists: Int!
+  gold: Int!
+  damage: Int!
+}
