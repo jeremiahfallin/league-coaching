@@ -6,7 +6,17 @@ type SuccessMessage {
 
 type Mutation {
   createPlayer(data: PlayerCreateInput): Player!
+  upsertPlayer(
+    where: PlayerWhereUniqueInput!
+    create: PlayerCreateInput!
+    update: PlayerUpdateInput!
+  ): Player!
   createTeam(name: String!): Team!
+  upsertTeam(
+    where: TeamWhereUniqueInput!
+    create: TeamCreateInput!
+    update: TeamUpdateInput!
+  ): Team!
 }
 
 type Query {

@@ -20,14 +20,14 @@ type Match {
 
 type Team {
   id: ID! @id
-  name: String!
+  name: String! @unique
   players: [Player!]! @scalarList(strategy: RELATION)
   matches: [Match]! @scalarList(strategy: RELATION) @relation(name: "TeamsInMatch")
 }
 
 type Player {
   id: ID! @id
-  summonerName: String!
+  summonerName: String! @unique
   team: Team
   role: String
   matches: [Match]! @scalarList(strategy: RELATION)
