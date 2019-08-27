@@ -7,7 +7,7 @@ const getCustomMatch = require("./getCustomMatch");
 const server = createServer();
 
 const corsOptions = {
-  origin: "http://localhost:7777",
+  origin: process.env.FRONTEND_URL,
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
 };
@@ -17,6 +17,7 @@ const options = {
 };
 
 server.express.get("/addmatch", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8000");
   try {
     data = await getCustomMatch(req.query.match);
   } catch (err) {

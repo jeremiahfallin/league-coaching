@@ -14,8 +14,35 @@ const Mutations = {
     return team;
   },
 
+  async upsertTeam(parent, args, ctx, info) {
+    const team = await ctx.db.mutation.upsertTeam(
+      {
+        data: {
+          ...args
+        }
+      },
+      info
+    );
+
+    return team;
+  },
+
   async createPlayer(parent, args, ctx, info) {
     const player = await ctx.db.mutation.createPlayer(
+      {
+        data: {
+          ...args
+        }
+      },
+      info
+    );
+
+    return player;
+  },
+
+  async upsertPlayer(parent, args, ctx, info) {
+    console.log(info);
+    const player = await ctx.db.mutation.upsertPlayer(
       {
         data: {
           ...args

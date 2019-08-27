@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/jeremiahfallin-813d56/league_coaching/dev
-# timestamp: Sun Aug 11 2019 15:23:03 GMT-0400 (Eastern Daylight Time)
+# timestamp: Tue Aug 27 2019 11:53:56 GMT-0700 (Pacific Daylight Time)
 
 type AggregateMatch {
   count: Int!
@@ -1144,6 +1144,7 @@ input PlayerWhereInput {
 
 input PlayerWhereUniqueInput {
   id: ID
+  summonerName: String
 }
 
 type Query {
@@ -2245,4 +2246,5 @@ input TeamWhereInput {
 
 input TeamWhereUniqueInput {
   id: ID
+  name: String
 }
