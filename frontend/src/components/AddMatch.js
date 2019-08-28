@@ -8,26 +8,6 @@ import { gql } from "apollo-boost"
 import { useMutation } from "@apollo/react-hooks"
 import PropTypes from "prop-types"
 
-const CREATE_MATCH_MUTATION = gql`
-  mutation CREATE_MATCH_MUTATION(
-    $players: [String!]!
-    $stats: [Json!]!
-    $teams: [Team!]!
-    $duration: Int!
-    $winner: Team!
-  ) {
-    createMatch(
-      players: $players
-      stats: $stats
-      teams: $teams
-      duration: $duration
-      winner: $winner
-    ) {
-      id
-    }
-  }
-`
-
 const UPSERT_TEAM_MUTATION = gql`
   mutation UPSERT_TEAM_MUTATION($name: String!) {
     upsertTeam(
@@ -44,13 +24,17 @@ const UPSERT_TEAM_MUTATION = gql`
 const UPSERT_PLAYER_MUTATION = gql`
   mutation UPSERT_PLAYER_MUTATION(
     $summonerName: String!
-    $team: Team
+    $team: ID
     $role: String
   ) {
     upsertPlayer(
       where: { summonerName: $summonerName }
-      update: { team: $team, role: $role }
-      create: { summonerName: $summonerName, team: $team, role: $role }
+      update: { team: { connect: { id: $team } }, role: $role }
+      create: {
+        summonerName: $summonerName
+        team: { connect: { id: $team } }
+        role: $role
+      }
     ) {
       id
       summonerName
@@ -59,13 +43,30 @@ const UPSERT_PLAYER_MUTATION = gql`
   }
 `
 
-const CREATE_PLAYER_MUTATION = gql`
-  mutation CREATE_PLAYER_MUTATION($data: PlayerWhereInput!) {
-    createPlayer(data: $data) {
-      id
-      team {
-        id
+const UPSERT_MATCH_MUTATION = gql`
+  mutation UPSERT_MATCH_MUTATION(
+    $id: ID
+    $players: ID!
+    $blue: ID!
+    $red: ID!
+    $duration: Int!
+    $winner: ID!
+  ) {
+    upsertMatch(
+      where: { id: $id }
+      update: {
+        teams: { connect: [{ id: $blue }, { id: $red }] }
+        players: { connect: { id: $players } }
       }
+      create: {
+        id: $id
+        teams: { connect: [{ id: $blue }, { id: $red }] }
+        players: { connect: { id: $players } }
+        duration: $duration
+        winner: { connect: { id: $winner } }
+      }
+    ) {
+      id
     }
   }
 `
@@ -82,6 +83,7 @@ const Column = styled.div`
 
 function AddMatch() {
   let baseStats = {
+    id: "",
     summonerName: "",
     champion: "",
     role: "",
@@ -106,11 +108,12 @@ function AddMatch() {
   const [blueTeam, setBlueTeam] = useState({ ...teamPlayerInfo })
   const [redTeam, setRedTeam] = useState({ ...teamPlayerInfo })
   const [teamNames, setTeamNames] = useState({ blue: "", red: "" })
-  const [winner, setWinner] = useState("")
+  const [matchInfo, setMatchInfo] = useState({ winner: "", duration: 0 })
 
   // Mutations.
   const [upsertTeam, { team }] = useMutation(UPSERT_TEAM_MUTATION)
   const [upsertPlayer, { player }] = useMutation(UPSERT_PLAYER_MUTATION)
+  const [upsertMatch, { match }] = useMutation(UPSERT_MATCH_MUTATION)
 
   const callBackendAPI = async match => {
     const response = await fetch(
@@ -132,6 +135,7 @@ function AddMatch() {
 
     // 3102504145
     if (data) {
+      console.log(data)
       let blueLaneInfo = {}
       let redLaneInfo = {}
       const setLane = i => {
@@ -165,6 +169,12 @@ function AddMatch() {
       setBlueTeam({ ...blueLaneInfo })
 
       setRedTeam({ ...redLaneInfo })
+
+      setMatchInfo({
+        duration: data.gameDuration,
+        winner: data.teams[0]["win"],
+      })
+
       setIsLoaded(false)
     }
   }
@@ -209,24 +219,32 @@ function AddMatch() {
     <Form
       onSubmit={async e => {
         e.preventDefault()
-        let blueTeamObject = await upsertTeam({
+        let blueTeamGraph = await upsertTeam({
           variables: { name: teamNames.blue },
         })
-        console.log(blueTeamObject.data.upsertTeam.id)
-        console.log(blueTeam)
-        let player = await upsertPlayer({
+        let redTeamGraph = await upsertTeam({
+          variables: { name: teamNames.red },
+        })
+        let blueTeamID = blueTeamGraph.data.upsertTeam.id
+        let redTeamID = redTeamGraph.data.upsertTeam.id
+        let blueTeamTop = await upsertPlayer({
           variables: {
-            name: blueTeam.top.summonerName,
-            team: blueTeamObject.data.upsertTeam.id,
+            summonerName: blueTeam.top.summonerName,
             role: blueTeam.top.role,
+            team: blueTeamID,
           },
         })
-        // const res = await playerMutation(
-        //   e,
-        //   createPlayer,
-        //   blueTeam.top,
-        //   blueTeamID
-        // );
+
+        let match = await upsertMatch({
+          variables: {
+            id: matchID,
+            players: blueTeamTop.data.upsertPlayer.id,
+            blue: blueTeamID,
+            red: redTeamID,
+            duration: 50,
+            winner: matchInfo["winner"] === "Win" ? blueTeamID : redTeamID,
+          },
+        })
       }}
     >
       <Column>

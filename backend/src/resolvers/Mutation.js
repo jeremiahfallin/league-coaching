@@ -1,19 +1,6 @@
 const { hasPermission } = require("../utils");
 
 const Mutations = {
-  async createTeam(parent, args, ctx, info) {
-    const team = await ctx.db.mutation.createTeam(
-      {
-        data: {
-          ...args
-        }
-      },
-      info
-    );
-
-    return team;
-  },
-
   async upsertTeam(parent, args, ctx, info) {
     const team = await ctx.db.mutation.upsertTeam(
       {
@@ -27,10 +14,15 @@ const Mutations = {
     return team;
   },
 
-  async createPlayer(parent, args, ctx, info) {
-    const player = await ctx.db.mutation.createPlayer(
+  async upsertPlayer(parent, args, ctx, info) {
+    const player = await ctx.db.mutation.upsertPlayer(
       {
         data: {
+          team: {
+            connect: {
+              id: args.team
+            }
+          },
           ...args
         }
       },
@@ -40,11 +32,25 @@ const Mutations = {
     return player;
   },
 
-  async upsertPlayer(parent, args, ctx, info) {
-    console.log(info);
-    const player = await ctx.db.mutation.upsertPlayer(
+  async upsertMatch(parent, args, ctx, info) {
+    const player = await ctx.db.mutation.upsertMatch(
       {
         data: {
+          teams: {
+            connect: {
+              id: args.teams
+            }
+          },
+          players: {
+            connect: {
+              id: args.players
+            }
+          },
+          winner: {
+            connect: {
+              id: args.winner
+            }
+          },
           ...args
         }
       },
