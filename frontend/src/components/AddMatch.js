@@ -195,20 +195,8 @@ function AddMatch() {
     setMatchID(e.target.value)
   }, 350)
 
-  const playerMutation = async (e, createPlayerMutation, summoner, teamID) => {
-    e.preventDefault()
-    console.log(`e: ${e}\nsummonerName: ${summoner.summonerName}`)
-    const res = await createPlayerMutation({
-      variables: {
-        data: {
-          summonerName: summoner.summonerName,
-          role: summoner.role,
-          teamID: teamID,
-        },
-      },
-    })
-
-    return res
+  const getPlayers = async () => {
+    Promise.all()
   }
 
   useEffect(() => {
@@ -227,6 +215,7 @@ function AddMatch() {
         })
         let blueTeamID = blueTeamGraph.data.upsertTeam.id
         let redTeamID = redTeamGraph.data.upsertTeam.id
+
         let blueTeamTop = await upsertPlayer({
           variables: {
             summonerName: blueTeam.top.summonerName,
