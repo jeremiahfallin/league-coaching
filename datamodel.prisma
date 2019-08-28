@@ -10,7 +10,7 @@ enum Permission {
 type Match {
   id: ID! @id
   players: [Player!]! @scalarList(strategy: RELATION)
-  stats: [Stats!]!
+  stats: [Stats]
   teams: [Team!]! @scalarList(strategy: RELATION) @relation(name: "TeamsInMatch")
   duration: Int!
   winner: Team! @relation(name: "WinnerOfMatch")
