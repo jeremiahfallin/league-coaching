@@ -20,10 +20,17 @@ type Mutation {
     create: MatchCreateInput!
     update: MatchUpdateInput!
   ): Match!
+  upsertStats(
+    where: StatsWhereInput!
+    create: StatsCreateInput!
+    update: StatsUpdateInput!
+  ): Stats!
 }
 
 type Query {
   players(where: PlayerWhereInput): Player!
   team(where: TeamWhereInput): Team!
   teams(where: TeamWhereUniqueInput!): Team
+  stats(where: StatsWhereUniqueInput): Stats
+  statses(where: StatsWhereInput): [Stats]
 }

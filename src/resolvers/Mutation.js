@@ -33,7 +33,7 @@ const Mutations = {
   },
 
   async upsertMatch(parent, args, ctx, info) {
-    const player = await ctx.db.mutation.upsertMatch(
+    const match = await ctx.db.mutation.upsertMatch(
       {
         data: {
           teams: {
@@ -57,7 +57,30 @@ const Mutations = {
       info
     );
 
-    return player;
+    return match;
+  },
+
+  async upsertStats(parent, args, ctx, info) {
+    const stats = await ctx.db.mutation.upsertStats(
+      {
+        data: {
+          player: {
+            connect: {
+              id: args.player
+            }
+          },
+          match: {
+            connect: {
+              id: args.match
+            }
+          },
+          ...args
+        }
+      },
+      info
+    );
+
+    return stats;
   }
 };
 
