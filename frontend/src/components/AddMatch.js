@@ -107,10 +107,8 @@ const UPSERT_MATCH_MUTATION = gql`
 `
 
 const STATS_QUERY = gql`
-  query STATS_QUERY($player: ID!, $match: ID!) {
-    statses(
-      where: { OR: [{ player: { id: $player }, match: { id: $match } }] }
-    ) {
+  query STATS_QUERY($match: ID!) {
+    statses(where: { match: { id: $match } }) {
       id
       player {
         id
@@ -221,12 +219,8 @@ function AddMatch() {
 
   // Queries.
   const { data, refetch } = useQuery(STATS_QUERY, {
-    variables: { player: playerInput, match: matchID },
+    variables: { match: matchID },
   })
-
-  useEffect(() => {
-    callBackendAPI(matchID)
-  }, [matchID])
 
   // Mutations.
   const [upsertTeam, { team }] = useMutation(UPSERT_TEAM_MUTATION)
@@ -315,30 +309,9 @@ function AddMatch() {
     setMatchID(e.target.value)
   }, 350)
 
-  const forQueryResults = async deets => {
-    if (deets) {
-      if (deets.length) {
-        setQueryResults({
-          ...queryResults,
-          [playerInput]: deets["statses"][0]["id"],
-        })
-      } else {
-        setQueryResults({
-          ...queryResults,
-          [playerInput]: 0,
-        })
-      }
-    }
-    console.log(queryResults)
-  }
-
   useEffect(() => {
-    forQueryResults(data)
+    console.log(data)
   }, [data])
-
-  useEffect(() => {
-    console.log(playerInput)
-  }, [playerInput])
 
   useEffect(() => {
     callBackendAPI(matchID)
@@ -407,70 +380,64 @@ function AddMatch() {
           },
         })
 
-        for (let key in Object.keys(bluePlayersPromise)) {
-          setPlayerInput(bluePlayersPromise[key].data.upsertPlayer.id)
-        }
-        for (let key in Object.keys(redPlayersPromise)) {
-          setPlayerInput(redPlayersPromise[key].data.upsertPlayer.id)
-        }
+        let blueStatsPromise = await Promise.all(
+          Object.keys(blueTeam).map((player, index) => {
+            let x = 0
+            let p = data["statses"]
+            Object.keys(p).forEach(function(elem) {
+              if (
+                p[elem]["player"]["id"] ===
+                bluePlayersPromise[index].data.upsertPlayer.id
+              ) {
+                x = p[elem]["id"]
+              }
+            })
+            console.log(queryResults)
+            return upsertStats({
+              variables: {
+                id: x,
+                player: bluePlayersPromise[index].data.upsertPlayer.id,
+                match: matchID,
+                role: blueTeam[player]["role"],
+                champion: blueTeam[player]["champion"],
+                kills: blueTeam[player]["kills"],
+                deaths: blueTeam[player]["deaths"],
+                assists: blueTeam[player]["assists"],
+                gold: blueTeam[player]["gold"],
+                damage: blueTeam[player]["damage"],
+              },
+            })
+          })
+        )
 
-        while (true) {
-          if (queryResults.length === 10) {
-            let blueStatsPromise = await Promise.all(
-              Object.keys(blueTeam).map((player, index) => {
-                console.log(queryResults)
-                return upsertStats({
-                  variables: {
-                    id:
-                      queryResults[
-                        bluePlayersPromise[index].data.upsertPlayer.id
-                      ] !== 0
-                        ? queryResults[
-                            bluePlayersPromise[index].data.upsertPlayer.id
-                          ]
-                        : 0,
-                    player: bluePlayersPromise[index].data.upsertPlayer.id,
-                    match: matchID,
-                    role: blueTeam[player]["role"],
-                    champion: blueTeam[player]["champion"],
-                    kills: blueTeam[player]["kills"],
-                    deaths: blueTeam[player]["deaths"],
-                    assists: blueTeam[player]["assists"],
-                    gold: blueTeam[player]["gold"],
-                    damage: blueTeam[player]["damage"],
-                  },
-                })
-              })
-            )
-
-            let redStatsPromise = await Promise.all(
-              Object.keys(redTeam).map((player, index) => {
-                return upsertStats({
-                  variables: {
-                    id:
-                      queryResults[
-                        redPlayersPromise[index].data.upsertPlayer.id
-                      ] !== 0
-                        ? queryResults[
-                            redPlayersPromise[index].data.upsertPlayer.id
-                          ]
-                        : 0,
-                    player: redPlayersPromise[index].data.upsertPlayer.id,
-                    match: matchID,
-                    role: redTeam[player]["role"],
-                    champion: redTeam[player]["champion"],
-                    kills: redTeam[player]["kills"],
-                    deaths: redTeam[player]["deaths"],
-                    assists: redTeam[player]["assists"],
-                    gold: redTeam[player]["gold"],
-                    damage: redTeam[player]["damage"],
-                  },
-                })
-              })
-            )
-            break
-          }
-        }
+        let redStatsPromise = await Promise.all(
+          Object.keys(redTeam).map((player, index) => {
+            let x = 0
+            let p = data["statses"]
+            Object.keys(p).forEach(function(elem) {
+              if (
+                p[elem]["player"]["id"] ===
+                redPlayersPromise[index].data.upsertPlayer.id
+              ) {
+                x = p[elem]["id"]
+              }
+            })
+            return upsertStats({
+              variables: {
+                id: x,
+                player: redPlayersPromise[index].data.upsertPlayer.id,
+                match: matchID,
+                role: redTeam[player]["role"],
+                champion: redTeam[player]["champion"],
+                kills: redTeam[player]["kills"],
+                deaths: redTeam[player]["deaths"],
+                assists: redTeam[player]["assists"],
+                gold: redTeam[player]["gold"],
+                damage: redTeam[player]["damage"],
+              },
+            })
+          })
+        )
       }}
     >
       <Column>
