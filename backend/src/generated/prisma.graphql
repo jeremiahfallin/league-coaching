@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/jeremiahfallin-813d56/league_coaching/dev
-# timestamp: Tue Aug 27 2019 11:53:56 GMT-0700 (Pacific Daylight Time)
+# timestamp: Mon Sep 02 2019 13:46:39 GMT-0700 (Pacific Daylight Time)
 
 type AggregateMatch {
   count: Int!
@@ -18,7 +18,9 @@ type AggregateTeam {
 }
 
 type BatchPayload {
-  """The number of nodes that have been affected by the Batch operation."""
+  """
+  The number of nodes that have been affected by the Batch operation.
+  """
   count: Long!
 }
 
@@ -32,21 +34,51 @@ scalar Long
 
 type Match implements Node {
   id: ID!
-  players(where: PlayerWhereInput, orderBy: PlayerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Player!]
-  stats(where: StatsWhereInput, orderBy: StatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Stats!]
-  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
+  players(
+    where: PlayerWhereInput
+    orderBy: PlayerOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Player!]
+  stats(
+    where: StatsWhereInput
+    orderBy: StatsOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Stats!]
+  teams(
+    where: TeamWhereInput
+    orderBy: TeamOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Team!]
   duration: Int!
   winner: Team!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type MatchConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [MatchEdge]!
   aggregate: AggregateMatch!
 }
@@ -99,12 +131,18 @@ input MatchCreateWithoutTeamsInput {
   winner: TeamCreateOneInput!
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type MatchEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: Match!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
@@ -127,119 +165,193 @@ type MatchPreviousValues {
 }
 
 input MatchScalarWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [MatchScalarWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [MatchScalarWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [MatchScalarWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   duration: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   duration_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   duration_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   duration_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   duration_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   duration_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   duration_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   duration_gte: Int
   createdAt: DateTime
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   createdAt_not: DateTime
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   createdAt_in: [DateTime!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   createdAt_not_in: [DateTime!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   createdAt_lt: DateTime
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   createdAt_lte: DateTime
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   createdAt_gt: DateTime
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   createdAt_gte: DateTime
   updatedAt: DateTime
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   updatedAt_not: DateTime
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   updatedAt_in: [DateTime!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   updatedAt_not_in: [DateTime!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   updatedAt_lt: DateTime
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   updatedAt_lte: DateTime
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   updatedAt_gt: DateTime
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   updatedAt_gte: DateTime
 }
 
@@ -251,16 +363,24 @@ type MatchSubscriptionPayload {
 }
 
 input MatchSubscriptionWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [MatchSubscriptionWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [MatchSubscriptionWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [MatchSubscriptionWhereInput!]
 
-  """The subscription event gets dispatched when it's listed in mutation_in"""
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
   mutation_in: [MutationType!]
 
   """
@@ -381,119 +501,193 @@ input MatchUpsertWithWhereUniqueWithoutTeamsInput {
 }
 
 input MatchWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [MatchWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [MatchWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [MatchWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   duration: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   duration_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   duration_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   duration_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   duration_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   duration_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   duration_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   duration_gte: Int
   createdAt: DateTime
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   createdAt_not: DateTime
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   createdAt_in: [DateTime!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   createdAt_not_in: [DateTime!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   createdAt_lt: DateTime
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   createdAt_lte: DateTime
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   createdAt_gt: DateTime
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   createdAt_gte: DateTime
   updatedAt: DateTime
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   updatedAt_not: DateTime
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   updatedAt_in: [DateTime!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   updatedAt_not_in: [DateTime!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   updatedAt_lt: DateTime
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   updatedAt_lte: DateTime
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   updatedAt_gt: DateTime
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   updatedAt_gte: DateTime
   players_every: PlayerWhereInput
   players_some: PlayerWhereInput
@@ -513,28 +707,56 @@ input MatchWhereUniqueInput {
 
 type Mutation {
   createMatch(data: MatchCreateInput!): Match!
-  createStats(data: StatsCreateInput!): Stats!
   createPlayer(data: PlayerCreateInput!): Player!
+  createStats(data: StatsCreateInput!): Stats!
   createTeam(data: TeamCreateInput!): Team!
   updateMatch(data: MatchUpdateInput!, where: MatchWhereUniqueInput!): Match
-  updateStats(data: StatsUpdateInput!, where: StatsWhereUniqueInput!): Stats
   updatePlayer(data: PlayerUpdateInput!, where: PlayerWhereUniqueInput!): Player
+  updateStats(data: StatsUpdateInput!, where: StatsWhereUniqueInput!): Stats
   updateTeam(data: TeamUpdateInput!, where: TeamWhereUniqueInput!): Team
   deleteMatch(where: MatchWhereUniqueInput!): Match
-  deleteStats(where: StatsWhereUniqueInput!): Stats
   deletePlayer(where: PlayerWhereUniqueInput!): Player
+  deleteStats(where: StatsWhereUniqueInput!): Stats
   deleteTeam(where: TeamWhereUniqueInput!): Team
-  upsertMatch(where: MatchWhereUniqueInput!, create: MatchCreateInput!, update: MatchUpdateInput!): Match!
-  upsertStats(where: StatsWhereUniqueInput!, create: StatsCreateInput!, update: StatsUpdateInput!): Stats!
-  upsertPlayer(where: PlayerWhereUniqueInput!, create: PlayerCreateInput!, update: PlayerUpdateInput!): Player!
-  upsertTeam(where: TeamWhereUniqueInput!, create: TeamCreateInput!, update: TeamUpdateInput!): Team!
-  updateManyMatches(data: MatchUpdateManyMutationInput!, where: MatchWhereInput): BatchPayload!
-  updateManyStatses(data: StatsUpdateManyMutationInput!, where: StatsWhereInput): BatchPayload!
-  updateManyPlayers(data: PlayerUpdateManyMutationInput!, where: PlayerWhereInput): BatchPayload!
-  updateManyTeams(data: TeamUpdateManyMutationInput!, where: TeamWhereInput): BatchPayload!
+  upsertMatch(
+    where: MatchWhereUniqueInput!
+    create: MatchCreateInput!
+    update: MatchUpdateInput!
+  ): Match!
+  upsertPlayer(
+    where: PlayerWhereUniqueInput!
+    create: PlayerCreateInput!
+    update: PlayerUpdateInput!
+  ): Player!
+  upsertStats(
+    where: StatsWhereUniqueInput!
+    create: StatsCreateInput!
+    update: StatsUpdateInput!
+  ): Stats!
+  upsertTeam(
+    where: TeamWhereUniqueInput!
+    create: TeamCreateInput!
+    update: TeamUpdateInput!
+  ): Team!
+  updateManyMatches(
+    data: MatchUpdateManyMutationInput!
+    where: MatchWhereInput
+  ): BatchPayload!
+  updateManyPlayers(
+    data: PlayerUpdateManyMutationInput!
+    where: PlayerWhereInput
+  ): BatchPayload!
+  updateManyStatses(
+    data: StatsUpdateManyMutationInput!
+    where: StatsWhereInput
+  ): BatchPayload!
+  updateManyTeams(
+    data: TeamUpdateManyMutationInput!
+    where: TeamWhereInput
+  ): BatchPayload!
   deleteManyMatches(where: MatchWhereInput): BatchPayload!
-  deleteManyStatses(where: StatsWhereInput): BatchPayload!
   deleteManyPlayers(where: PlayerWhereInput): BatchPayload!
+  deleteManyStatses(where: StatsWhereInput): BatchPayload!
   deleteManyTeams(where: TeamWhereInput): BatchPayload!
 }
 
@@ -544,24 +766,38 @@ enum MutationType {
   DELETED
 }
 
-"""An object with an ID"""
+"""
+An object with an ID
+"""
 interface Node {
-  """The id of the object."""
+  """
+  The id of the object.
+  """
   id: ID!
 }
 
-"""Information about pagination in a connection."""
+"""
+Information about pagination in a connection.
+"""
 type PageInfo {
-  """When paginating forwards, are there more items?"""
+  """
+  When paginating forwards, are there more items?
+  """
   hasNextPage: Boolean!
 
-  """When paginating backwards, are there more items?"""
+  """
+  When paginating backwards, are there more items?
+  """
   hasPreviousPage: Boolean!
 
-  """When paginating backwards, the cursor to continue."""
+  """
+  When paginating backwards, the cursor to continue.
+  """
   startCursor: String
 
-  """When paginating forwards, the cursor to continue."""
+  """
+  When paginating forwards, the cursor to continue.
+  """
   endCursor: String
 }
 
@@ -570,17 +806,40 @@ type Player implements Node {
   summonerName: String!
   team: Team
   role: String
-  matches(where: MatchWhereInput, orderBy: MatchOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Match!]
+  matches(
+    where: MatchWhereInput
+    orderBy: MatchOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Match!]
+  stats(
+    where: StatsWhereInput
+    orderBy: StatsOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Stats!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type PlayerConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [PlayerEdge]!
   aggregate: AggregatePlayer!
 }
@@ -591,6 +850,7 @@ input PlayerCreateInput {
   role: String
   team: TeamCreateOneWithoutPlayersInput
   matches: MatchCreateManyWithoutPlayersInput
+  stats: StatsCreateManyWithoutPlayerInput
 }
 
 input PlayerCreateManyWithoutMatchesInput {
@@ -603,8 +863,8 @@ input PlayerCreateManyWithoutTeamInput {
   connect: [PlayerWhereUniqueInput!]
 }
 
-input PlayerCreateOneInput {
-  create: PlayerCreateInput
+input PlayerCreateOneWithoutStatsInput {
+  create: PlayerCreateWithoutStatsInput
   connect: PlayerWhereUniqueInput
 }
 
@@ -613,6 +873,15 @@ input PlayerCreateWithoutMatchesInput {
   summonerName: String!
   role: String
   team: TeamCreateOneWithoutPlayersInput
+  stats: StatsCreateManyWithoutPlayerInput
+}
+
+input PlayerCreateWithoutStatsInput {
+  id: ID
+  summonerName: String!
+  role: String
+  team: TeamCreateOneWithoutPlayersInput
+  matches: MatchCreateManyWithoutPlayersInput
 }
 
 input PlayerCreateWithoutTeamInput {
@@ -620,14 +889,21 @@ input PlayerCreateWithoutTeamInput {
   summonerName: String!
   role: String
   matches: MatchCreateManyWithoutPlayersInput
+  stats: StatsCreateManyWithoutPlayerInput
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type PlayerEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: Player!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
@@ -653,177 +929,289 @@ type PlayerPreviousValues {
 }
 
 input PlayerScalarWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [PlayerScalarWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [PlayerScalarWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [PlayerScalarWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   summonerName: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   summonerName_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   summonerName_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   summonerName_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   summonerName_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   summonerName_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   summonerName_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   summonerName_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   summonerName_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   summonerName_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   summonerName_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   summonerName_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   summonerName_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   summonerName_not_ends_with: String
   role: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   role_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   role_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   role_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   role_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   role_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   role_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   role_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   role_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   role_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   role_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   role_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   role_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   role_not_ends_with: String
   createdAt: DateTime
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   createdAt_not: DateTime
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   createdAt_in: [DateTime!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   createdAt_not_in: [DateTime!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   createdAt_lt: DateTime
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   createdAt_lte: DateTime
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   createdAt_gt: DateTime
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   createdAt_gte: DateTime
   updatedAt: DateTime
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   updatedAt_not: DateTime
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   updatedAt_in: [DateTime!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   updatedAt_not_in: [DateTime!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   updatedAt_lt: DateTime
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   updatedAt_lte: DateTime
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   updatedAt_gt: DateTime
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   updatedAt_gte: DateTime
 }
 
@@ -835,16 +1223,24 @@ type PlayerSubscriptionPayload {
 }
 
 input PlayerSubscriptionWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [PlayerSubscriptionWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [PlayerSubscriptionWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [PlayerSubscriptionWhereInput!]
 
-  """The subscription event gets dispatched when it's listed in mutation_in"""
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
   mutation_in: [MutationType!]
 
   """
@@ -864,18 +1260,12 @@ input PlayerSubscriptionWhereInput {
   node: PlayerWhereInput
 }
 
-input PlayerUpdateDataInput {
-  summonerName: String
-  role: String
-  team: TeamUpdateOneWithoutPlayersInput
-  matches: MatchUpdateManyWithoutPlayersInput
-}
-
 input PlayerUpdateInput {
   summonerName: String
   role: String
   team: TeamUpdateOneWithoutPlayersInput
   matches: MatchUpdateManyWithoutPlayersInput
+  stats: StatsUpdateManyWithoutPlayerInput
 }
 
 input PlayerUpdateManyDataInput {
@@ -917,23 +1307,32 @@ input PlayerUpdateManyWithWhereNestedInput {
   data: PlayerUpdateManyDataInput!
 }
 
-input PlayerUpdateOneRequiredInput {
-  create: PlayerCreateInput
+input PlayerUpdateOneRequiredWithoutStatsInput {
+  create: PlayerCreateWithoutStatsInput
   connect: PlayerWhereUniqueInput
-  update: PlayerUpdateDataInput
-  upsert: PlayerUpsertNestedInput
+  update: PlayerUpdateWithoutStatsDataInput
+  upsert: PlayerUpsertWithoutStatsInput
 }
 
 input PlayerUpdateWithoutMatchesDataInput {
   summonerName: String
   role: String
   team: TeamUpdateOneWithoutPlayersInput
+  stats: StatsUpdateManyWithoutPlayerInput
+}
+
+input PlayerUpdateWithoutStatsDataInput {
+  summonerName: String
+  role: String
+  team: TeamUpdateOneWithoutPlayersInput
+  matches: MatchUpdateManyWithoutPlayersInput
 }
 
 input PlayerUpdateWithoutTeamDataInput {
   summonerName: String
   role: String
   matches: MatchUpdateManyWithoutPlayersInput
+  stats: StatsUpdateManyWithoutPlayerInput
 }
 
 input PlayerUpdateWithWhereUniqueWithoutMatchesInput {
@@ -946,9 +1345,9 @@ input PlayerUpdateWithWhereUniqueWithoutTeamInput {
   data: PlayerUpdateWithoutTeamDataInput!
 }
 
-input PlayerUpsertNestedInput {
-  update: PlayerUpdateDataInput!
-  create: PlayerCreateInput!
+input PlayerUpsertWithoutStatsInput {
+  update: PlayerUpdateWithoutStatsDataInput!
+  create: PlayerCreateWithoutStatsInput!
 }
 
 input PlayerUpsertWithWhereUniqueWithoutMatchesInput {
@@ -964,182 +1363,297 @@ input PlayerUpsertWithWhereUniqueWithoutTeamInput {
 }
 
 input PlayerWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [PlayerWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [PlayerWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [PlayerWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   summonerName: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   summonerName_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   summonerName_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   summonerName_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   summonerName_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   summonerName_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   summonerName_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   summonerName_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   summonerName_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   summonerName_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   summonerName_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   summonerName_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   summonerName_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   summonerName_not_ends_with: String
   role: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   role_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   role_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   role_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   role_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   role_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   role_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   role_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   role_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   role_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   role_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   role_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   role_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   role_not_ends_with: String
   createdAt: DateTime
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   createdAt_not: DateTime
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   createdAt_in: [DateTime!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   createdAt_not_in: [DateTime!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   createdAt_lt: DateTime
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   createdAt_lte: DateTime
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   createdAt_gt: DateTime
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   createdAt_gte: DateTime
   updatedAt: DateTime
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   updatedAt_not: DateTime
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   updatedAt_in: [DateTime!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   updatedAt_not_in: [DateTime!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   updatedAt_lt: DateTime
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   updatedAt_lte: DateTime
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   updatedAt_gt: DateTime
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   updatedAt_gte: DateTime
   team: TeamWhereInput
   matches_every: MatchWhereInput
   matches_some: MatchWhereInput
   matches_none: MatchWhereInput
+  stats_every: StatsWhereInput
+  stats_some: StatsWhereInput
+  stats_none: StatsWhereInput
 }
 
 input PlayerWhereUniqueInput {
@@ -1148,22 +1662,90 @@ input PlayerWhereUniqueInput {
 }
 
 type Query {
-  matches(where: MatchWhereInput, orderBy: MatchOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Match]!
-  statses(where: StatsWhereInput, orderBy: StatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Stats]!
-  players(where: PlayerWhereInput, orderBy: PlayerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Player]!
-  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team]!
+  matches(
+    where: MatchWhereInput
+    orderBy: MatchOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Match]!
+  players(
+    where: PlayerWhereInput
+    orderBy: PlayerOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Player]!
+  statses(
+    where: StatsWhereInput
+    orderBy: StatsOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Stats]!
+  teams(
+    where: TeamWhereInput
+    orderBy: TeamOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Team]!
   match(where: MatchWhereUniqueInput!): Match
-  stats(where: StatsWhereUniqueInput!): Stats
   player(where: PlayerWhereUniqueInput!): Player
+  stats(where: StatsWhereUniqueInput!): Stats
   team(where: TeamWhereUniqueInput!): Team
-  matchesConnection(where: MatchWhereInput, orderBy: MatchOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MatchConnection!
-  statsesConnection(where: StatsWhereInput, orderBy: StatsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StatsConnection!
-  playersConnection(where: PlayerWhereInput, orderBy: PlayerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PlayerConnection!
-  teamsConnection(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TeamConnection!
+  matchesConnection(
+    where: MatchWhereInput
+    orderBy: MatchOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): MatchConnection!
+  playersConnection(
+    where: PlayerWhereInput
+    orderBy: PlayerOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): PlayerConnection!
+  statsesConnection(
+    where: StatsWhereInput
+    orderBy: StatsOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): StatsConnection!
+  teamsConnection(
+    where: TeamWhereInput
+    orderBy: TeamOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): TeamConnection!
 
-  """Fetches an object given its ID"""
+  """
+  Fetches an object given its ID
+  """
   node(
-    """The ID of an object"""
+    """
+    The ID of an object
+    """
     id: ID!
   ): Node
 }
@@ -1181,12 +1763,18 @@ type Stats implements Node {
   damage: Int!
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type StatsConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [StatsEdge]!
   aggregate: AggregateStats!
 }
@@ -1200,12 +1788,17 @@ input StatsCreateInput {
   assists: Int!
   gold: Int!
   damage: Int!
-  player: PlayerCreateOneInput!
+  player: PlayerCreateOneWithoutStatsInput!
   match: MatchCreateOneWithoutStatsInput!
 }
 
 input StatsCreateManyWithoutMatchInput {
   create: [StatsCreateWithoutMatchInput!]
+  connect: [StatsWhereUniqueInput!]
+}
+
+input StatsCreateManyWithoutPlayerInput {
+  create: [StatsCreateWithoutPlayerInput!]
   connect: [StatsWhereUniqueInput!]
 }
 
@@ -1218,15 +1811,33 @@ input StatsCreateWithoutMatchInput {
   assists: Int!
   gold: Int!
   damage: Int!
-  player: PlayerCreateOneInput!
+  player: PlayerCreateOneWithoutStatsInput!
 }
 
-"""An edge in a connection."""
+input StatsCreateWithoutPlayerInput {
+  id: ID
+  role: String!
+  champion: String!
+  kills: Int!
+  deaths: Int!
+  assists: Int!
+  gold: Int!
+  damage: Int!
+  match: MatchCreateOneWithoutStatsInput!
+}
+
+"""
+An edge in a connection.
+"""
 type StatsEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: Stats!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
@@ -1261,243 +1872,397 @@ type StatsPreviousValues {
 }
 
 input StatsScalarWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [StatsScalarWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [StatsScalarWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [StatsScalarWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   role: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   role_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   role_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   role_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   role_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   role_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   role_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   role_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   role_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   role_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   role_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   role_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   role_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   role_not_ends_with: String
   champion: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   champion_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   champion_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   champion_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   champion_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   champion_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   champion_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   champion_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   champion_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   champion_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   champion_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   champion_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   champion_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   champion_not_ends_with: String
   kills: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   kills_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   kills_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   kills_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   kills_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   kills_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   kills_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   kills_gte: Int
   deaths: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   deaths_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   deaths_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   deaths_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   deaths_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   deaths_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   deaths_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   deaths_gte: Int
   assists: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   assists_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   assists_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   assists_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   assists_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   assists_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   assists_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   assists_gte: Int
   gold: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   gold_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   gold_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   gold_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   gold_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   gold_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   gold_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   gold_gte: Int
   damage: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   damage_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   damage_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   damage_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   damage_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   damage_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   damage_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   damage_gte: Int
 }
 
@@ -1509,16 +2274,24 @@ type StatsSubscriptionPayload {
 }
 
 input StatsSubscriptionWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [StatsSubscriptionWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [StatsSubscriptionWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [StatsSubscriptionWhereInput!]
 
-  """The subscription event gets dispatched when it's listed in mutation_in"""
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
   mutation_in: [MutationType!]
 
   """
@@ -1546,7 +2319,7 @@ input StatsUpdateInput {
   assists: Int
   gold: Int
   damage: Int
-  player: PlayerUpdateOneRequiredInput
+  player: PlayerUpdateOneRequiredWithoutStatsInput
   match: MatchUpdateOneRequiredWithoutStatsInput
 }
 
@@ -1582,6 +2355,18 @@ input StatsUpdateManyWithoutMatchInput {
   upsert: [StatsUpsertWithWhereUniqueWithoutMatchInput!]
 }
 
+input StatsUpdateManyWithoutPlayerInput {
+  create: [StatsCreateWithoutPlayerInput!]
+  connect: [StatsWhereUniqueInput!]
+  set: [StatsWhereUniqueInput!]
+  disconnect: [StatsWhereUniqueInput!]
+  delete: [StatsWhereUniqueInput!]
+  update: [StatsUpdateWithWhereUniqueWithoutPlayerInput!]
+  updateMany: [StatsUpdateManyWithWhereNestedInput!]
+  deleteMany: [StatsScalarWhereInput!]
+  upsert: [StatsUpsertWithWhereUniqueWithoutPlayerInput!]
+}
+
 input StatsUpdateManyWithWhereNestedInput {
   where: StatsScalarWhereInput!
   data: StatsUpdateManyDataInput!
@@ -1595,12 +2380,28 @@ input StatsUpdateWithoutMatchDataInput {
   assists: Int
   gold: Int
   damage: Int
-  player: PlayerUpdateOneRequiredInput
+  player: PlayerUpdateOneRequiredWithoutStatsInput
+}
+
+input StatsUpdateWithoutPlayerDataInput {
+  role: String
+  champion: String
+  kills: Int
+  deaths: Int
+  assists: Int
+  gold: Int
+  damage: Int
+  match: MatchUpdateOneRequiredWithoutStatsInput
 }
 
 input StatsUpdateWithWhereUniqueWithoutMatchInput {
   where: StatsWhereUniqueInput!
   data: StatsUpdateWithoutMatchDataInput!
+}
+
+input StatsUpdateWithWhereUniqueWithoutPlayerInput {
+  where: StatsWhereUniqueInput!
+  data: StatsUpdateWithoutPlayerDataInput!
 }
 
 input StatsUpsertWithWhereUniqueWithoutMatchInput {
@@ -1609,244 +2410,404 @@ input StatsUpsertWithWhereUniqueWithoutMatchInput {
   create: StatsCreateWithoutMatchInput!
 }
 
+input StatsUpsertWithWhereUniqueWithoutPlayerInput {
+  where: StatsWhereUniqueInput!
+  update: StatsUpdateWithoutPlayerDataInput!
+  create: StatsCreateWithoutPlayerInput!
+}
+
 input StatsWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [StatsWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [StatsWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [StatsWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   role: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   role_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   role_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   role_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   role_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   role_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   role_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   role_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   role_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   role_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   role_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   role_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   role_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   role_not_ends_with: String
   champion: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   champion_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   champion_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   champion_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   champion_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   champion_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   champion_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   champion_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   champion_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   champion_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   champion_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   champion_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   champion_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   champion_not_ends_with: String
   kills: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   kills_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   kills_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   kills_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   kills_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   kills_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   kills_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   kills_gte: Int
   deaths: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   deaths_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   deaths_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   deaths_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   deaths_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   deaths_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   deaths_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   deaths_gte: Int
   assists: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   assists_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   assists_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   assists_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   assists_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   assists_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   assists_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   assists_gte: Int
   gold: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   gold_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   gold_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   gold_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   gold_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   gold_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   gold_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   gold_gte: Int
   damage: Int
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   damage_not: Int
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   damage_in: [Int!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   damage_not_in: [Int!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   damage_lt: Int
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   damage_lte: Int
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   damage_gt: Int
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   damage_gte: Int
   player: PlayerWhereInput
   match: MatchWhereInput
@@ -1858,24 +2819,46 @@ input StatsWhereUniqueInput {
 
 type Subscription {
   match(where: MatchSubscriptionWhereInput): MatchSubscriptionPayload
-  stats(where: StatsSubscriptionWhereInput): StatsSubscriptionPayload
   player(where: PlayerSubscriptionWhereInput): PlayerSubscriptionPayload
+  stats(where: StatsSubscriptionWhereInput): StatsSubscriptionPayload
   team(where: TeamSubscriptionWhereInput): TeamSubscriptionPayload
 }
 
 type Team implements Node {
   id: ID!
   name: String!
-  players(where: PlayerWhereInput, orderBy: PlayerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Player!]
-  matches(where: MatchWhereInput, orderBy: MatchOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Match!]
+  players(
+    where: PlayerWhereInput
+    orderBy: PlayerOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Player!]
+  matches(
+    where: MatchWhereInput
+    orderBy: MatchOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Match!]
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type TeamConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [TeamEdge]!
   aggregate: AggregateTeam!
 }
@@ -1914,12 +2897,18 @@ input TeamCreateWithoutPlayersInput {
   matches: MatchCreateManyWithoutTeamsInput
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type TeamEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: Team!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
@@ -1936,93 +2925,151 @@ type TeamPreviousValues {
 }
 
 input TeamScalarWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [TeamScalarWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [TeamScalarWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [TeamScalarWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   name: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   name_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   name_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   name_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   name_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   name_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   name_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   name_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   name_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   name_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   name_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   name_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   name_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   name_not_ends_with: String
 }
 
@@ -2034,16 +3081,24 @@ type TeamSubscriptionPayload {
 }
 
 input TeamSubscriptionWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [TeamSubscriptionWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [TeamSubscriptionWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [TeamSubscriptionWhereInput!]
 
-  """The subscription event gets dispatched when it's listed in mutation_in"""
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
   mutation_in: [MutationType!]
 
   """
@@ -2148,93 +3203,151 @@ input TeamUpsertWithWhereUniqueWithoutMatchesInput {
 }
 
 input TeamWhereInput {
-  """Logical AND on all given filters."""
+  """
+  Logical AND on all given filters.
+  """
   AND: [TeamWhereInput!]
 
-  """Logical OR on all given filters."""
+  """
+  Logical OR on all given filters.
+  """
   OR: [TeamWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
+  """
+  Logical NOT on all given filters combined by AND.
+  """
   NOT: [TeamWhereInput!]
   id: ID
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   id_not: ID
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   id_in: [ID!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   id_not_in: [ID!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   id_lt: ID
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   id_lte: ID
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   id_gt: ID
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   id_gte: ID
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   id_contains: ID
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   id_not_contains: ID
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   id_starts_with: ID
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   id_not_starts_with: ID
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   id_ends_with: ID
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   id_not_ends_with: ID
   name: String
 
-  """All values that are not equal to given value."""
+  """
+  All values that are not equal to given value.
+  """
   name_not: String
 
-  """All values that are contained in given list."""
+  """
+  All values that are contained in given list.
+  """
   name_in: [String!]
 
-  """All values that are not contained in given list."""
+  """
+  All values that are not contained in given list.
+  """
   name_not_in: [String!]
 
-  """All values less than the given value."""
+  """
+  All values less than the given value.
+  """
   name_lt: String
 
-  """All values less than or equal the given value."""
+  """
+  All values less than or equal the given value.
+  """
   name_lte: String
 
-  """All values greater than the given value."""
+  """
+  All values greater than the given value.
+  """
   name_gt: String
 
-  """All values greater than or equal the given value."""
+  """
+  All values greater than or equal the given value.
+  """
   name_gte: String
 
-  """All values containing the given string."""
+  """
+  All values containing the given string.
+  """
   name_contains: String
 
-  """All values not containing the given string."""
+  """
+  All values not containing the given string.
+  """
   name_not_contains: String
 
-  """All values starting with the given string."""
+  """
+  All values starting with the given string.
+  """
   name_starts_with: String
 
-  """All values not starting with the given string."""
+  """
+  All values not starting with the given string.
+  """
   name_not_starts_with: String
 
-  """All values ending with the given string."""
+  """
+  All values ending with the given string.
+  """
   name_ends_with: String
 
-  """All values not ending with the given string."""
+  """
+  All values not ending with the given string.
+  """
   name_not_ends_with: String
   players_every: PlayerWhereInput
   players_some: PlayerWhereInput

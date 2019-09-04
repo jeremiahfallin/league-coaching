@@ -28,9 +28,9 @@ type Mutation {
 }
 
 type Query {
-  players(where: PlayerWhereInput): Player!
-  team(where: TeamWhereInput): Team!
-  teams(where: TeamWhereUniqueInput!): Team
+  players(where: PlayerWhereInput): Player
+  team(where: TeamWhereInput): Team
+  teams(where: TeamWhereInput): [Team]
   stats(where: StatsWhereUniqueInput): Stats
   statses(where: StatsWhereInput): [Stats]
 }

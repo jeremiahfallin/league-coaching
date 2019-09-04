@@ -31,6 +31,7 @@ type Player {
   team: Team
   role: String
   matches: [Match]! @scalarList(strategy: RELATION)
+  stats: [Stats]! @scalarList(strategy: RELATION)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

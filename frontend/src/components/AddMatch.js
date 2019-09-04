@@ -218,7 +218,7 @@ function AddMatch() {
   const [queryResults, setQueryResults] = useState({})
 
   // Queries.
-  const { data, refetch } = useQuery(STATS_QUERY, {
+  const { data } = useQuery(STATS_QUERY, {
     variables: { match: matchID },
   })
 
@@ -308,10 +308,6 @@ function AddMatch() {
   const getMatch = debounce(async e => {
     setMatchID(e.target.value)
   }, 350)
-
-  useEffect(() => {
-    console.log(data)
-  }, [data])
 
   useEffect(() => {
     callBackendAPI(matchID)
