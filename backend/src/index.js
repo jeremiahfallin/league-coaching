@@ -17,7 +17,7 @@ const options = {
 };
 
 server.express.get("/addmatch", async (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8000");
+  res.setHeader("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
   try {
     data = await getCustomMatch(req.query.match);
   } catch (err) {
