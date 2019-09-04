@@ -92,6 +92,7 @@ function ViewTeam() {
   const topChampions = () => {
     let champions = {}
     if (data.team) {
+      console.log(data)
       for (let player in Object.keys(data.team.players))
         for (let [key] in Object.keys(data.team.players[player]["stats"])) {
           let champion = data.team.players[player]["stats"][key]["champion"]
@@ -183,15 +184,6 @@ function ViewTeam() {
       </Column>
     </>
   )
-}
-
-const LoadingImageComponent = (loading, champion) => {
-  console.log(champion.length)
-  if (loading && champion.length > 2) {
-    return <Images src={`images/${champion}.png`} />
-  } else {
-    return <ClimbingBoxLoader sizeUnit={"px"} size={10} color={"#123abc"} />
-  }
 }
 
 export default ViewTeam
