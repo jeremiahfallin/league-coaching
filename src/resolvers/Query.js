@@ -10,6 +10,10 @@ const Query = {
 
   async players(parent, args, ctx, info) {
     return ctx.db.query.players({}, info);
+  },
+
+  async teams(parent, args, ctx, info) {
+    return ctx.db.query.teams({}, info);
   }
 };
 
