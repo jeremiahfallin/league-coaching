@@ -14,10 +14,16 @@ const IndexPage = () => (
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />
     </div>
-    <Link to="/addmatch">
-      <a>Add New Match</a>
-    </Link>
-    <img src="/static/images/Aatrox.png" alt="Aatrox" />
+    <div>
+      <Link to="/addmatch">
+        <a>Add New Match</a>
+      </Link>
+    </div>
+    <div>
+      <Link to="/viewteam">
+        <a>View Team Info</a>
+      </Link>
+    </div>
   </Layout>
 )
 
