@@ -1,6 +1,6 @@
 import ApolloClient from "apollo-boost"
 import fetch from "isomorphic-fetch"
-import { endpoint } from "../config"
+import { endpoint, prodEndpoint } from "../config"
 
 export const client = new ApolloClient({
   uri: process.env.NODE_ENV === "development" ? endpoint : prodEndpoint,
