@@ -7,6 +7,7 @@ import debounce from "lodash.debounce"
 import { gql } from "apollo-boost"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import PropTypes from "prop-types"
+import { endpoint, prodEndpoint } from "../config"
 
 const UPSERT_TEAM_MUTATION = gql`
   mutation UPSERT_TEAM_MUTATION($name: String!) {
@@ -229,9 +230,8 @@ function AddMatch() {
   const [upsertStats, { stats }] = useMutation(UPSERT_STATS_MUTATION)
 
   const callBackendAPI = async match => {
-    const response = await fetch(
-      `http://localhost:4444/addmatch?match=${match}`
-    )
+    let url = process.env.NODE_ENV === "development" ? endpoint : prodEndpoint
+    const response = await fetch(`${url}/addmatch?match=${match}`)
     if (response.status !== 200) {
       setIsLoaded(false)
       throw Error(body.message)
