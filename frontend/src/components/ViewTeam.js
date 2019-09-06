@@ -19,6 +19,9 @@ const TEAM_QUERY = gql`
           id
           duration
           stats {
+            player {
+              id
+            }
             damage
             gold
           }
@@ -75,6 +78,33 @@ function ViewTeam() {
       ["x"]: 0,
     },
   })
+  const [stats, setStats] = useState({
+    ["Summoner One"]: {
+      ["kda"]: 0,
+      ["gpm"]: 0,
+      ["dpm"]: 0,
+    },
+    ["Summoner Two"]: {
+      ["kda"]: 0,
+      ["gpm"]: 0,
+      ["dpm"]: 0,
+    },
+    ["Summoner Three"]: {
+      ["kda"]: 0,
+      ["gpm"]: 0,
+      ["dpm"]: 0,
+    },
+    ["Summoner Four"]: {
+      ["kda"]: 0,
+      ["gpm"]: 0,
+      ["dpm"]: 0,
+    },
+    ["Summoner Five"]: {
+      ["kda"]: 0,
+      ["gpm"]: 0,
+      ["dpm"]: 0,
+    },
+  })
 
   //Queries
   const { loading, data } = useQuery(TEAM_QUERY, {
@@ -89,11 +119,11 @@ function ViewTeam() {
 
   useEffect(() => {
     topChampions()
-    // getAverageGold()
+    getStats()
   }, [data])
 
-  const getAverageGold = () => {
-    let gpmObject = {}
+  const getStats = () => {
+    let playerStats = {}
     if (data.team) {
       console.log(data)
     }
@@ -102,7 +132,6 @@ function ViewTeam() {
   const topChampions = () => {
     let champions = {}
     if (data.team) {
-      console.log(data)
       for (let player in Object.keys(data.team.players))
         for (let [key] in Object.keys(data.team.players[player]["stats"])) {
           let champion = data.team.players[player]["stats"][key]["champion"]
