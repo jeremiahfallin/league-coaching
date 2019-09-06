@@ -14,16 +14,6 @@ const IndexPage = () => (
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />
     </div>
-    <div>
-      <Link to="/addmatch">
-        <a>Add New Match</a>
-      </Link>
-    </div>
-    <div>
-      <Link to="/viewteam">
-        <a>View Team Info</a>
-      </Link>
-    </div>
   </Layout>
 )
 
