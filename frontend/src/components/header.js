@@ -46,8 +46,8 @@ const Header = () => (
     <div className="sub-bar">
       <Logo>
         <Link to="/">League Coaching</Link>
-        <Link to="/viewteam">View Team Info</Link>
         <Link to="/addmatch">Add New Match</Link>
+        <Link to="/viewteam">View Team Info</Link>
       </Logo>
     </div>
   </StyledHeader>

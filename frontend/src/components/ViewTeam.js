@@ -18,6 +18,10 @@ const TEAM_QUERY = gql`
         matches {
           id
           duration
+          stats {
+            damage
+            gold
+          }
         }
         stats {
           id
@@ -25,8 +29,6 @@ const TEAM_QUERY = gql`
           kills
           deaths
           assists
-          damage
-          gold
         }
       }
     }
@@ -87,7 +89,15 @@ function ViewTeam() {
 
   useEffect(() => {
     topChampions()
+    // getAverageGold()
   }, [data])
+
+  const getAverageGold = () => {
+    let gpmObject = {}
+    if (data.team) {
+      console.log(data)
+    }
+  }
 
   const topChampions = () => {
     let champions = {}
