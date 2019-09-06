@@ -9,6 +9,7 @@
 import React from "react"
 import { ApolloProvider } from "react-apollo"
 import { client } from "./src/apollo/client"
+import Page from "./src/components/Page"
 
 export const wrapRootElement = ({ element }) => (
   <Page>
