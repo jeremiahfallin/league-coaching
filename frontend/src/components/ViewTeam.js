@@ -258,38 +258,36 @@ function ViewTeam() {
         />
         <Row>
           {Object.entries(topThree).map(([player, val]) => (
-            <Column key={player}>
-              <Division direction="left" key={player}>
-                <fieldset player="true" key={"fieldset" + String(player)}>
-                  <legend>{player}</legend>
-                  <Row>
-                    <Box>KDA</Box>
-                    <Box>DPM</Box>
-                    <Box>GPM</Box>
+            <Row key={player}>
+              <fieldset player="true" key={"fieldset" + String(player)}>
+                <legend>{player}</legend>
+                <Row>
+                  <Box>KDA</Box>
+                  <Box>DPM</Box>
+                  <Box>GPM</Box>
+                </Row>
+                <Row>
+                  <Box>{stats[player]["kda"].toFixed(2)}</Box>
+                  <Box>{stats[player]["dpm"].toFixed(2)}</Box>
+                  <Box>{stats[player]["gpm"].toFixed(2)}</Box>
+                </Row>
+                <Row>
+                  <Box>Champions</Box>
+                  <Box>Games Played</Box>
+                </Row>
+                {Object.entries(topThree[player]).map(([key, value]) => (
+                  <Row key={"Row" + String(key)}>
+                    <Box key={"box" + String(player)}>
+                      <Images
+                        src={`images/${key}.png`}
+                        key={"Image" + String(key)}
+                      />
+                    </Box>
+                    <Box>{value}</Box>
                   </Row>
-                  <Row>
-                    <Box>{stats[player]["kda"].toFixed(2)}</Box>
-                    <Box>{stats[player]["dpm"].toFixed(2)}</Box>
-                    <Box>{stats[player]["gpm"].toFixed(2)}</Box>
-                  </Row>
-                  <Row>
-                    <Box>Champions</Box>
-                    <Box>Games Played</Box>
-                  </Row>
-                  {Object.entries(topThree[player]).map(([key, value]) => (
-                    <Row key={"Row" + String(key)}>
-                      <Box key={"box" + String(player)}>
-                        <Images
-                          src={`images/${key}.png`}
-                          key={"Image" + String(key)}
-                        />
-                      </Box>
-                      <Box>{value}</Box>
-                    </Row>
-                  ))}
-                </fieldset>
-              </Division>
-            </Column>
+                ))}
+              </fieldset>
+            </Row>
           ))}
         </Row>
       </Column>
