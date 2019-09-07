@@ -21,17 +21,18 @@ const TEAM_QUERY = gql`
           stats {
             player {
               id
+              summonerName
             }
             damage
             gold
+            kills
+            deaths
+            assists
           }
         }
         stats {
           id
           champion
-          kills
-          deaths
-          assists
         }
       }
     }
@@ -49,7 +50,7 @@ const Column = styled.div`
 `
 
 const Box = styled.div`
-  width: 100px;
+  width: 100%;
   padding: 10px;
   margin: 5px;
 `
@@ -125,14 +126,74 @@ function ViewTeam() {
   const getStats = () => {
     let playerStats = {}
     if (data.team) {
-      console.log(data)
+      console.log(data.team.players)
+      for (let player in Object.keys(data.team.players)) {
+        let playerID = data.team.players[player]["id"]
+        for (let match in Object.keys(data.team.players[player]["matches"])) {
+          let totalGold = 0,
+            totalDamage = 0,
+            totalDuration = 0,
+            kills = 0,
+            deaths = 0,
+            assists = 0
+          let game = data.team.players[player]["matches"][match]
+          for (let stat in Object.keys(game["stats"])) {
+            if (playerID === game["stats"][stat]["player"]["id"]) {
+              totalGold += game["stats"][stat]["gold"]
+              totalDamage += game["stats"][stat]["damage"]
+              kills += game["stats"][stat]["kills"]
+              deaths += game["stats"][stat]["deaths"]
+              assists += game["stats"][stat]["assists"]
+              totalDuration += game["duration"]
+            }
+          }
+          totalDuration = totalDuration / 60
+          playerStats = {
+            ...playerStats,
+            [data.team.players[player]["summonerName"]]: {
+              ["gpm"]: totalGold / totalDuration,
+              ["dpm"]: totalDamage / totalDuration,
+              ["kda"]: (kills + deaths) / assists,
+            },
+          }
+        }
+      }
+      setStats(playerStats)
+    } else {
+      setStats({
+        ["Summoner One"]: {
+          ["kda"]: 0,
+          ["gpm"]: 0,
+          ["dpm"]: 0,
+        },
+        ["Summoner Two"]: {
+          ["kda"]: 0,
+          ["gpm"]: 0,
+          ["dpm"]: 0,
+        },
+        ["Summoner Three"]: {
+          ["kda"]: 0,
+          ["gpm"]: 0,
+          ["dpm"]: 0,
+        },
+        ["Summoner Four"]: {
+          ["kda"]: 0,
+          ["gpm"]: 0,
+          ["dpm"]: 0,
+        },
+        ["Summoner Five"]: {
+          ["kda"]: 0,
+          ["gpm"]: 0,
+          ["dpm"]: 0,
+        },
+      })
     }
   }
 
   const topChampions = () => {
     let champions = {}
     if (data.team) {
-      for (let player in Object.keys(data.team.players))
+      for (let player in Object.keys(data.team.players)) {
         for (let [key] in Object.keys(data.team.players[player]["stats"])) {
           let champion = data.team.players[player]["stats"][key]["champion"]
           let summoner = data.team.players[player]["summonerName"]
@@ -160,6 +221,7 @@ function ViewTeam() {
             }
           }
         }
+      }
     } else {
       champions = {
         ["Summoner One"]: {
@@ -200,6 +262,16 @@ function ViewTeam() {
               <Division direction="left" key={player}>
                 <fieldset player="true" key={"fieldset" + String(player)}>
                   <legend>{player}</legend>
+                  <Row>
+                    <Box>KDA</Box>
+                    <Box>DPM</Box>
+                    <Box>GPM</Box>
+                  </Row>
+                  <Row>
+                    <Box>{stats[player]["kda"].toFixed(2)}</Box>
+                    <Box>{stats[player]["dpm"].toFixed(2)}</Box>
+                    <Box>{stats[player]["gpm"].toFixed(2)}</Box>
+                  </Row>
                   <Row>
                     <Box>Champions</Box>
                     <Box>Games Played</Box>

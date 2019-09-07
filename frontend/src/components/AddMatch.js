@@ -210,7 +210,7 @@ function AddMatch() {
 
   // State variables.
   const [isLoaded, setIsLoaded] = useState(false)
-  const [matchID, setMatchID] = useState(null)
+  const [matchID, setMatchID] = useState(0)
   const [playerInput, setPlayerInput] = useState("")
   const [blueTeam, setBlueTeam] = useState({ ...teamPlayerInfo })
   const [redTeam, setRedTeam] = useState({ ...teamPlayerInfo })
@@ -306,7 +306,9 @@ function AddMatch() {
   }
 
   const getMatch = debounce(async e => {
-    setMatchID(e.target.value)
+    const { value } = e.target
+
+    setMatchID(value)
   }, 350)
 
   useEffect(() => {
