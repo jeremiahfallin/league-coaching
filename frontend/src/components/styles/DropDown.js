@@ -1,11 +1,11 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components"
 
 const DropDown = styled.div`
   position: absolute;
   width: 100%;
   z-index: 2;
   border: 1px solid ${props => props.theme.lightgrey};
-`;
+`
 
 const DropDownTeam = styled.div`
   border-bottom: 1px solid ${props => props.theme.lightgrey};
@@ -16,7 +16,7 @@ const DropDownTeam = styled.div`
   align-items: center;
   border-left: 10px solid
     ${props => (props.highlighted ? props.theme.lightgrey : "white")};
-`;
+`
 
 const SearchStyles = styled.div`
   position: relative;
@@ -24,6 +24,6 @@ const SearchStyles = styled.div`
     width: 100%;
     border: 0;
   }
-`;
+`
 
-export { DropDown, DropDownTeam, SearchStyles };
+export { DropDown, DropDownTeam, SearchStyles }

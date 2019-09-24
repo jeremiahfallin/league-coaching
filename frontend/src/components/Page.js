@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
+import React, { Component } from "react"
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components"
+import Header from "./header"
 
 const theme = {
   green: "#325B3E",
@@ -9,19 +10,19 @@ const theme = {
   lightgrey: "#E1E1E1",
   offWhite: "#EDEDED",
   maxWidth: "1500px",
-  bs: "0 12px 24px 0 rgba(0, 0, 0, 0.09)"
-};
+  bs: "0 12px 24px 0 rgba(0, 0, 0, 0.09)",
+}
 
 const StyledPage = styled.div`
   background: ${props => props.theme.black};
   color: ${props => props.theme.lightgrey};
-`;
+`
 
 const Inner = styled.div`
   max-width: ${props => props.theme.maxWidth};
   margin: 0 auto;
   padding: 2rem;
-`;
+`
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -49,19 +50,20 @@ a {
     text-decoration: none;
     color: ${theme.lightgrey};
 }
-`;
+`
 
 class Page extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
         <StyledPage>
+          <Header />
           <Inner>{this.props.children}</Inner>
           <GlobalStyle />
         </StyledPage>
       </ThemeProvider>
-    );
+    )
   }
 }
 
-export default Page;
+export default Page

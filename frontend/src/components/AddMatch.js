@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from "react"
-import Form from "./styles/Form"
-import Error from "./ErrorMessage"
-import styled from "styled-components"
-import PlayerInfo from "./PlayerInfo"
-import debounce from "lodash.debounce"
-import { gql } from "apollo-boost"
-import { useQuery, useMutation } from "@apollo/react-hooks"
-import PropTypes from "prop-types"
-import { endpoint, prodEndpoint } from "../config"
+import React, { useState, useEffect } from "react";
+import Form from "./styles/Form";
+import Error from "./ErrorMessage";
+import styled from "styled-components";
+import PlayerInfo from "./PlayerInfo";
+import debounce from "lodash.debounce";
+import { gql } from "apollo-boost";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import PropTypes from "prop-types";
+import { endpoint, prodEndpoint } from "../config";
+import CreatableSelect from "react-select/";
+
+const ALL_TEAMS_QUERY = gql`
+  query ALL_TEAMS_QUERY {
+    teams {
+      name
+    }
+  }
+`;
 
 const UPSERT_TEAM_MUTATION = gql`
   mutation UPSERT_TEAM_MUTATION($name: String!) {
@@ -20,7 +29,7 @@ const UPSERT_TEAM_MUTATION = gql`
       name
     }
   }
-`
+`;
 
 const UPSERT_PLAYER_MUTATION = gql`
   mutation UPSERT_PLAYER_MUTATION(
@@ -42,7 +51,7 @@ const UPSERT_PLAYER_MUTATION = gql`
       role
     }
   }
-`
+`;
 
 const UPSERT_MATCH_MUTATION = gql`
   mutation UPSERT_MATCH_MUTATION(
@@ -105,7 +114,7 @@ const UPSERT_MATCH_MUTATION = gql`
       id
     }
   }
-`
+`;
 
 const STATS_QUERY = gql`
   query STATS_QUERY($match: ID!) {
@@ -119,7 +128,7 @@ const STATS_QUERY = gql`
       }
     }
   }
-`
+`;
 
 const UPSERT_STATS_MUTATION = gql`
   mutation UPSERT_STATS_MUTATION(
@@ -162,17 +171,23 @@ const UPSERT_STATS_MUTATION = gql`
       id
     }
   }
-`
+`;
 
 const Division = styled.div`
   float: ${props => props.direction};
   width: 45%;
-`
+`;
 
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`;
 
 function AddMatch() {
   let baseStats = {
@@ -185,7 +200,7 @@ function AddMatch() {
     assists: 0,
     damage: 0,
     gold: 0,
-  }
+  };
 
   let teamPlayerInfo = {
     top: { ...baseStats, role: "top" },
@@ -193,7 +208,7 @@ function AddMatch() {
     mid: { ...baseStats, role: "mid" },
     carry: { ...baseStats, role: "carry" },
     support: { ...baseStats, role: "support" },
-  }
+  };
 
   const roles = [
     "top",
@@ -206,51 +221,52 @@ function AddMatch() {
     "mid",
     "carry",
     "support",
-  ]
+  ];
 
   // State variables.
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [matchID, setMatchID] = useState(0)
-  const [playerInput, setPlayerInput] = useState("")
-  const [blueTeam, setBlueTeam] = useState({ ...teamPlayerInfo })
-  const [redTeam, setRedTeam] = useState({ ...teamPlayerInfo })
-  const [teamNames, setTeamNames] = useState({ blue: "", red: "" })
-  const [matchInfo, setMatchInfo] = useState({ winner: "", duration: 0 })
-  const [queryResults, setQueryResults] = useState({})
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [matchID, setMatchID] = useState(0);
+  const [blueTeam, setBlueTeam] = useState({ ...teamPlayerInfo });
+  const [redTeam, setRedTeam] = useState({ ...teamPlayerInfo });
+  const [teamNames, setTeamNames] = useState({ blue: "", red: "" });
+  const [matchInfo, setMatchInfo] = useState({ winner: "", duration: 0 });
+  const [selectableTeams, setSelectableTeams] = useState([]);
+  const [blueTeamValue, setBlueTeamValue] = useState("");
 
   // Queries.
   const { data } = useQuery(STATS_QUERY, {
     variables: { match: matchID },
-  })
+  });
+  const { data: allTeamNames } = useQuery(ALL_TEAMS_QUERY);
 
   // Mutations.
-  const [upsertTeam, { team }] = useMutation(UPSERT_TEAM_MUTATION)
-  const [upsertPlayer, { player }] = useMutation(UPSERT_PLAYER_MUTATION)
-  const [upsertMatch, { match }] = useMutation(UPSERT_MATCH_MUTATION)
-  const [upsertStats, { stats }] = useMutation(UPSERT_STATS_MUTATION)
+  const [upsertTeam, { team }] = useMutation(UPSERT_TEAM_MUTATION);
+  const [upsertPlayer, { player }] = useMutation(UPSERT_PLAYER_MUTATION);
+  const [upsertMatch, { match }] = useMutation(UPSERT_MATCH_MUTATION);
+  const [upsertStats, { stats }] = useMutation(UPSERT_STATS_MUTATION);
 
   const callBackendAPI = async match => {
-    let url = process.env.NODE_ENV === "development" ? endpoint : prodEndpoint
-    const response = await fetch(`${url}/addmatch?match=${match}`)
+    let url = process.env.NODE_ENV === "development" ? endpoint : prodEndpoint;
+    const response = await fetch(`${url}/addmatch?match=${match}`);
     if (response.status !== 200) {
-      setIsLoaded(false)
-      throw Error(body.message)
+      setIsLoaded(false);
+      throw Error(body.message);
     }
 
-    const body = await response.json()
+    const body = await response.json();
     if (body["message"]) {
-      delete baseStats.summonerName
-      setBlueTeam({ ...teamPlayerInfo })
-      setRedTeam({ ...teamPlayerInfo })
-      setIsLoaded(false)
+      delete baseStats.summonerName;
+      setBlueTeam({ ...teamPlayerInfo });
+      setRedTeam({ ...teamPlayerInfo });
+      setIsLoaded(false);
     }
-    const apiData = body["data"]
+    const apiData = body["data"];
 
     // 3102504145
     if (apiData) {
-      console.log(apiData)
-      let blueLaneInfo = {}
-      let redLaneInfo = {}
+      console.log(apiData);
+      let blueLaneInfo = {};
+      let redLaneInfo = {};
       const setLane = i => {
         const {
           kills,
@@ -258,7 +274,7 @@ function AddMatch() {
           assists,
           totalDamageDealtToChampions: damage,
           goldEarned: gold,
-        } = apiData["participants"][i]["stats"]
+        } = apiData["participants"][i]["stats"];
         return {
           champion: apiData["participants"][i]["champion"],
           kills: Number(kills),
@@ -267,72 +283,83 @@ function AddMatch() {
           role: roles[i],
           damage: Number(damage),
           gold: Number(gold),
-        }
-      }
+        };
+      };
 
       Object.keys(blueTeam).forEach((position, index) => {
-        blueLaneInfo[position] = {}
-        redLaneInfo[position] = {}
+        blueLaneInfo[position] = {};
+        redLaneInfo[position] = {};
         blueLaneInfo[position] = {
           ...setLane(index),
-        }
+        };
         redLaneInfo[position] = {
           ...setLane(index + 5),
-        }
-      })
-      setBlueTeam({ ...blueTeam, ...blueLaneInfo })
+        };
+      });
+      setBlueTeam({ ...blueTeam, ...blueLaneInfo });
 
-      setRedTeam({ ...redTeam, ...redLaneInfo })
+      setRedTeam({ ...redTeam, ...redLaneInfo });
 
       setMatchInfo({
         duration: apiData.gameDuration,
         winner: apiData.teams[0]["win"],
-      })
+      });
 
-      setIsLoaded(false)
+      setIsLoaded(false);
     }
-  }
+  };
 
   const handleBlueTeamDataChange = e => {
-    const { value } = e.target
+    const { value } = e.target;
 
-    setTeamNames({ ...teamNames, blue: value })
-  }
+    setTeamNames({ ...teamNames, blue: value });
+  };
 
   const handleRedTeamDataChange = e => {
-    const { value } = e.target
+    const { value } = e.target;
 
-    setTeamNames({ ...teamNames, red: value })
-  }
+    setTeamNames({ ...teamNames, red: value });
+  };
 
   const getMatch = debounce(async e => {
-    const { value } = e.target
+    const { value } = e.target;
 
-    setMatchID(value)
-  }, 350)
+    setMatchID(value);
+  }, 350);
 
   useEffect(() => {
-    callBackendAPI(matchID)
-  }, [matchID])
+    callBackendAPI(matchID);
+  }, [matchID]);
+
+  useEffect(() => {
+    let teamsArray = [];
+    for (let i in allTeamNames.teams) {
+      teamsArray.push({
+        value: allTeamNames.teams[i].name,
+        label: allTeamNames.teams[i].name,
+      });
+    }
+    setSelectableTeams(teamsArray);
+  }, [allTeamNames]);
 
   return (
     <Form
       onSubmit={async e => {
-        e.preventDefault()
+        e.preventDefault();
         let {
           data: {
             upsertTeam: { id: blueTeamID },
           },
         } = await upsertTeam({
           variables: { name: teamNames.blue },
-        })
+        });
         let {
           data: {
             upsertTeam: { id: redTeamID },
           },
         } = await upsertTeam({
           variables: { name: teamNames.red },
-        })
+        });
 
         let bluePlayersPromise = await Promise.all(
           Object.keys(blueTeam).map(player => {
@@ -342,9 +369,9 @@ function AddMatch() {
                 role: blueTeam[player]["role"],
                 team: blueTeamID,
               },
-            })
+            });
           })
-        )
+        );
 
         let redPlayersPromise = await Promise.all(
           Object.keys(redTeam).map(player => {
@@ -354,9 +381,9 @@ function AddMatch() {
                 role: redTeam[player]["role"],
                 team: redTeamID,
               },
-            })
+            });
           })
-        )
+        );
 
         let match = await upsertMatch({
           variables: {
@@ -376,21 +403,20 @@ function AddMatch() {
             duration: matchInfo.duration,
             winner: matchInfo["winner"] === "Win" ? blueTeamID : redTeamID,
           },
-        })
+        });
 
         let blueStatsPromise = await Promise.all(
           Object.keys(blueTeam).map((player, index) => {
-            let x = 0
-            let p = data["statses"]
+            let x = 0;
+            let p = data["statses"];
             Object.keys(p).forEach(function(elem) {
               if (
                 p[elem]["player"]["id"] ===
                 bluePlayersPromise[index].data.upsertPlayer.id
               ) {
-                x = p[elem]["id"]
+                x = p[elem]["id"];
               }
-            })
-            console.log(queryResults)
+            });
             return upsertStats({
               variables: {
                 id: x,
@@ -404,22 +430,22 @@ function AddMatch() {
                 gold: blueTeam[player]["gold"],
                 damage: blueTeam[player]["damage"],
               },
-            })
+            });
           })
-        )
+        );
 
         let redStatsPromise = await Promise.all(
           Object.keys(redTeam).map((player, index) => {
-            let x = 0
-            let p = data["statses"]
+            let x = 0;
+            let p = data["statses"];
             Object.keys(p).forEach(function(elem) {
               if (
                 p[elem]["player"]["id"] ===
                 redPlayersPromise[index].data.upsertPlayer.id
               ) {
-                x = p[elem]["id"]
+                x = p[elem]["id"];
               }
-            })
+            });
             return upsertStats({
               variables: {
                 id: x,
@@ -433,12 +459,12 @@ function AddMatch() {
                 gold: redTeam[player]["gold"],
                 damage: redTeam[player]["damage"],
               },
-            })
+            });
           })
-        )
+        );
       }}
     >
-      <Column>
+      <Row>
         <label htmlFor="matchID">
           <input
             type="number"
@@ -446,18 +472,50 @@ function AddMatch() {
             name="matchID"
             placeholder="Match ID"
             onChange={e => {
-              e.persist()
-              setIsLoaded(true)
-              getMatch(e)
+              e.persist();
+              setIsLoaded(true);
+              getMatch(e);
             }}
           />
         </label>
-      </Column>
+      </Row>
 
       <fieldset disabled={isLoaded} aria-busy={isLoaded}>
         <Division direction="left">
           Blue Side
           <label players="true" htmlFor="blueTeamName">
+            <CreatableSelect
+              isClearable
+              options={selectableTeams}
+              onChange={(opt, meta) => setBlueTeamValue(opt.value)}
+              value={blueTeamValue}
+              isClearable
+              createOptionPosition={"first"}
+              closeMenuOnSelect={false}
+              hideSelectedOptions={false}
+              formatCreateLabel={() => `Add`}
+              theme={theme => ({
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  text: "red",
+                  primary25: "hotpink",
+                  primary: "black",
+                },
+              })}
+            />
+            <CreatableSelect
+              isClearable
+              value={blueTeamValue}
+              onChange={option => setBlueTeamValue(option)}
+              options={selectableTeams}
+              placeholder={"Select Team. . ."}
+              createOptionPosition={"first"}
+              closeMenuOnSelect={false}
+              hideSelectedOptions={false}
+              formatCreateLabel={() => `Add`}
+            />
+
             <input
               type="text"
               id="blueTeamName"
@@ -465,8 +523,8 @@ function AddMatch() {
               placeholder="Team Name"
               value={teamNames.blue}
               onChange={e => {
-                e.persist()
-                handleBlueTeamDataChange(e)
+                e.persist();
+                handleBlueTeamDataChange(e);
               }}
             />
           </label>
@@ -509,7 +567,7 @@ function AddMatch() {
         </Division>
       </fieldset>
     </Form>
-  )
+  );
 }
 
 AddMatch.propTypes = {
@@ -539,6 +597,6 @@ AddMatch.propTypes = {
     gold: PropTypes.number,
     damage: PropTypes.number,
   }),
-}
+};
 
-export default AddMatch
+export default AddMatch;

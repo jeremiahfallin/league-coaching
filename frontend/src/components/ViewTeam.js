@@ -5,7 +5,6 @@ import debounce from "lodash.debounce"
 import { gql } from "apollo-boost"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import Images from "./Images"
-import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader"
 
 const TEAM_QUERY = gql`
   query TEAM_QUERY($name: String!) {
@@ -42,6 +41,7 @@ const TEAM_QUERY = gql`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
 `
 
 const Column = styled.div`
@@ -52,12 +52,7 @@ const Column = styled.div`
 const Box = styled.div`
   width: 100%;
   padding: 10px;
-  margin: 5px;
-`
-
-const Division = styled.div`
-  float: ${props => props.direction};
-  width: 45%;
+  margin: 2px;
 `
 
 function ViewTeam() {
@@ -108,14 +103,12 @@ function ViewTeam() {
   })
 
   //Queries
-  const { loading, data } = useQuery(TEAM_QUERY, {
+  const { data } = useQuery(TEAM_QUERY, {
     variables: { name: teamName },
   })
 
   const handleTeamNameChange = e => {
     setTeamName(e.target.value)
-    if (data.team) {
-    }
   }
 
   useEffect(() => {
@@ -126,7 +119,6 @@ function ViewTeam() {
   const getStats = () => {
     let playerStats = {}
     if (data.team) {
-      console.log(data.team.players)
       for (let player in Object.keys(data.team.players)) {
         let playerID = data.team.players[player]["id"]
         for (let match in Object.keys(data.team.players[player]["matches"])) {
@@ -262,18 +254,18 @@ function ViewTeam() {
               <fieldset player="true" key={"fieldset" + String(player)}>
                 <legend>{player}</legend>
                 <Row>
-                  <Box>KDA</Box>
-                  <Box>DPM</Box>
-                  <Box>GPM</Box>
-                </Row>
-                <Row>
-                  <Box>{stats[player]["kda"].toFixed(2)}</Box>
-                  <Box>{stats[player]["dpm"].toFixed(2)}</Box>
-                  <Box>{stats[player]["gpm"].toFixed(2)}</Box>
-                </Row>
-                <Row>
-                  <Box>Champions</Box>
-                  <Box>Games Played</Box>
+                  <Box>
+                    <div>KDA</div>
+                    <div>{stats[player]["kda"].toFixed(2)}</div>
+                  </Box>
+                  <Box>
+                    <div>DPM</div>
+                    <div>{stats[player]["dpm"].toFixed(2)}</div>
+                  </Box>
+                  <Box>
+                    <div>GPM</div>
+                    <div>{stats[player]["gpm"].toFixed(2)}</div>
+                  </Box>
                 </Row>
                 {Object.entries(topThree[player]).map(([key, value]) => (
                   <Row key={"Row" + String(key)}>
@@ -283,7 +275,7 @@ function ViewTeam() {
                         key={"Image" + String(key)}
                       />
                     </Box>
-                    <Box>{value}</Box>
+                    <Box>{value} Played</Box>
                   </Row>
                 ))}
               </fieldset>

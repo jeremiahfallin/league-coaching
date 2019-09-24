@@ -48,6 +48,7 @@ const Header = () => (
         <Link to="/">League Coaching</Link>
         <Link to="/addmatch">Add New Match</Link>
         <Link to="/viewteam">View Team Info</Link>
+        <Link to="/viewteams">View Teams Info</Link>
       </Logo>
     </div>
   </StyledHeader>
