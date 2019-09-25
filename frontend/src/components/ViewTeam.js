@@ -372,6 +372,16 @@ function ViewTeam() {
         placeholder={"Select Team. . ."}
         closeMenuOnSelect={true}
         hideSelectedOptions={true}
+        theme={theme => ({
+          ...theme,
+          borderRadius: 0,
+          colors: {
+            ...theme.colors,
+            text: "black",
+            primary25: "#36B37E",
+            primary: "black",
+          },
+        })}
       />
       <Container>
         {selectablePlayers.slice(0, 5).map((player, val) => (
@@ -388,6 +398,16 @@ function ViewTeam() {
               placeholder={"Select Player. . ."}
               closeMenuOnSelect={true}
               hideSelectedOptions={true}
+              theme={theme => ({
+                ...theme,
+                borderRadius: 0,
+                colors: {
+                  ...theme.colors,
+                  text: "black",
+                  primary25: "#36B37E",
+                  primary: "black",
+                },
+              })}
             />
             <KDAGrid>
               <Box>
