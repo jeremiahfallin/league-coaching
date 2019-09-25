@@ -40,7 +40,14 @@ const TEAM_QUERY = gql`
         }
         stats {
           id
+          match {
+            duration
+          }
           champion
+          damage
+          kills
+          deaths
+          assists
         }
       }
     }
@@ -49,33 +56,26 @@ const TEAM_QUERY = gql`
 
 const Container = styled.div`
   display: grid;
-  background: violet;
   grid-template-columns: repeat(5, minmax(100px, 1fr));
   grid-gap: 20px;
 `;
 
-const Row = styled.div`
-  display: grid;
-  grid-template-columns: auto;
-  align-items: center;
-  background: blue;
-  background: ${props => props.color};
-`;
+const Row = styled.div``;
 
 const KDAGrid = styled.div`
   display: grid;
   grid-template-columns: auto;
   align-items: center;
-  background: red;
-  grid-template-columns: repeat(3, minmax(15px, 1fr));
+  background: #2f2f2f;
+  grid-template-columns: repeat(3, minmax(10px, 1fr));
 `;
 
 const ChampionGrid = styled.div`
   display: grid;
   grid-template-columns: auto;
   align-items: center;
-  background: green;
-  grid-template-columns: repeat(2, minmax(15px, 1fr));
+  background: #2f2f2f;
+  grid-template-columns: repeat(2, minmax(10px, 1fr));
 `;
 
 const Box = styled.div`
@@ -97,19 +97,29 @@ function ViewTeam() {
   const [teamName, setTeamName] = useState("");
   const [topThree, setTopThree] = useState({
     ["Summoner One"]: {
-      ["x"]: 0,
+      ["x"]: {
+        ["played"]: 0,
+      },
     },
     ["Summoner Two"]: {
-      ["x"]: 0,
+      ["x"]: {
+        ["played"]: 0,
+      },
     },
     ["Summoner Three"]: {
-      ["x"]: 0,
+      ["x"]: {
+        ["played"]: 0,
+      },
     },
     ["Summoner Four"]: {
-      ["x"]: 0,
+      ["x"]: {
+        ["played"]: 0,
+      },
     },
     ["Summoner Five"]: {
-      ["x"]: 0,
+      ["x"]: {
+        ["played"]: 0,
+      },
     },
   });
   const [stats, setStats] = useState({
@@ -255,7 +265,26 @@ function ViewTeam() {
             champions = {
               ...champions,
               [summoner]: {
-                [champion]: champions[summoner][champion] + 1,
+                [champion]: {
+                  ["played"]: champions[summoner][champion]["played"] + 1,
+                  ["kills"]:
+                    champions[summoner][champion]["kills"] +
+                    data.team.players[player]["stats"][key]["kills"],
+                  ["deaths"]:
+                    champions[summoner][champion]["deaths"] +
+                    data.team.players[player]["stats"][key]["deaths"],
+                  ["assists"]:
+                    champions[summoner][champion]["assists"] +
+                    data.team.players[player]["stats"][key]["assists"],
+                  ["damage"]:
+                    champions[summoner][champion]["damage"] +
+                    data.team.players[player]["stats"][key]["damage"],
+                  ["duration"]:
+                    champions[summoner][champion]["duration"] +
+                    data.team.players[player]["stats"][key]["match"][
+                      "duration"
+                    ],
+                },
               },
             };
           } else if (champions[summoner]) {
@@ -263,14 +292,36 @@ function ViewTeam() {
               ...champions,
               [summoner]: {
                 ...champions[summoner],
-                [champion]: 1,
+                [champion]: {
+                  ["played"]: 1,
+                  ["kills"]: data.team.players[player]["stats"][key]["kills"],
+                  ["deaths"]: data.team.players[player]["stats"][key]["deaths"],
+                  ["assists"]:
+                    data.team.players[player]["stats"][key]["assists"],
+                  ["damage"]: data.team.players[player]["stats"][key]["damage"],
+                  ["duration"]:
+                    data.team.players[player]["stats"][key]["match"][
+                      "duration"
+                    ],
+                },
               },
             };
           } else {
             champions = {
               ...champions,
               [summoner]: {
-                [champion]: 1,
+                [champion]: {
+                  ["played"]: 1,
+                  ["kills"]: data.team.players[player]["stats"][key]["kills"],
+                  ["deaths"]: data.team.players[player]["stats"][key]["deaths"],
+                  ["assists"]:
+                    data.team.players[player]["stats"][key]["assists"],
+                  ["damage"]: data.team.players[player]["stats"][key]["damage"],
+                  ["duration"]:
+                    data.team.players[player]["stats"][key]["match"][
+                      "duration"
+                    ],
+                },
               },
             };
           }
@@ -279,19 +330,29 @@ function ViewTeam() {
     } else {
       champions = {
         ["Summoner One"]: {
-          ["x"]: 0,
+          ["x"]: {
+            ["played"]: 0,
+          },
         },
         ["Summoner Two"]: {
-          ["x"]: 0,
+          ["x"]: {
+            ["played"]: 0,
+          },
         },
         ["Summoner Three"]: {
-          ["x"]: 0,
+          ["x"]: {
+            ["played"]: 0,
+          },
         },
         ["Summoner Four"]: {
-          ["x"]: 0,
+          ["x"]: {
+            ["played"]: 0,
+          },
         },
         ["Summoner Five"]: {
-          ["x"]: 0,
+          ["x"]: {
+            ["played"]: 0,
+          },
         },
       };
     }
@@ -302,7 +363,6 @@ function ViewTeam() {
   return (
     <>
       <Select
-        isClearable
         value={creatableTeamValue}
         onChange={option => {
           setTeamName(option.value);
@@ -351,7 +411,23 @@ function ViewTeam() {
                     key={"Image" + String(key)}
                   />
                 </Box>
-                <Box>{value} Played</Box>
+                <Box>
+                  {value["played"]} Played
+                  <ChampionGrid>
+                    <Box>
+                      KDA{" "}
+                      {(
+                        (value["kills"] + value["assists"]) /
+                        value["deaths"]
+                      ).toFixed(2)}{" "}
+                    </Box>
+                    <Box>
+                      DPM{" "}
+                      {((value["damage"] * 60) / value["duration"]).toFixed(2)}
+                    </Box>
+                  </ChampionGrid>
+                </Box>
+                {console.log(value)}
               </ChampionGrid>
             ))}
           </Row>
