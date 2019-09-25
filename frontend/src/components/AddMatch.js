@@ -8,8 +8,7 @@ import { gql } from "apollo-boost";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import { endpoint, prodEndpoint } from "../config";
-import CreatableSelect from "react-select";
-import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 const ALL_TEAMS_QUERY = gql`
   query ALL_TEAMS_QUERY {
@@ -179,11 +178,6 @@ const Division = styled.div`
   width: 45%;
 `;
 
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -233,6 +227,7 @@ function AddMatch() {
   const [matchInfo, setMatchInfo] = useState({ winner: "", duration: 0 });
   const [selectableTeams, setSelectableTeams] = useState([]);
   const [blueTeamValue, setBlueTeamValue] = useState("");
+  const [redTeamValue, setRedTeamValue] = useState("");
 
   // Queries.
   const { data } = useQuery(STATS_QUERY, {
@@ -485,16 +480,28 @@ function AddMatch() {
         <Division direction="left">
           Blue Side
           <label players="true" htmlFor="blueTeamName">
-            <input
-              type="text"
-              id="blueTeamName"
-              name="blueTeamName"
-              placeholder="Team Name"
-              value={teamNames.blue}
-              onChange={e => {
-                e.persist();
-                handleBlueTeamDataChange(e);
+            <CreatableSelect
+              value={blueTeamValue}
+              onChange={option => {
+                setBlueTeamValue(option);
+                setTeamNames({ ...teamNames, blue: option.value });
               }}
+              options={selectableTeams}
+              placeholder={"Select Team. . ."}
+              createOptionPosition={"first"}
+              closeMenuOnSelect={true}
+              hideSelectedOptions={true}
+              formatCreateLabel={() => `Add`}
+              theme={theme => ({
+                ...theme,
+                borderRadius: 0,
+                colors: {
+                  ...theme.colors,
+                  text: "black",
+                  primary25: "#36B37E",
+                  primary: "black",
+                },
+              })}
             />
           </label>
           {Object.keys(blueTeam).map(role => (
@@ -513,13 +520,28 @@ function AddMatch() {
         <Division direction="right">
           Red Side
           <label player="true" htmlFor="redTeam">
-            <input
-              type={"text"}
-              id={"redTeam"}
-              name={"redTeam"}
-              placeholder={"Team Name"}
-              value={teamNames.red}
-              onChange={e => handleRedTeamDataChange(e)}
+            <CreatableSelect
+              value={redTeamValue}
+              onChange={option => {
+                setRedTeamValue(option);
+                setTeamNames({ ...teamNames, red: option.value });
+              }}
+              options={selectableTeams}
+              placeholder={"Select Team. . ."}
+              createOptionPosition={"first"}
+              closeMenuOnSelect={true}
+              hideSelectedOptions={true}
+              formatCreateLabel={() => `Add`}
+              theme={theme => ({
+                ...theme,
+                borderRadius: 0,
+                colors: {
+                  ...theme.colors,
+                  text: "black",
+                  primary25: "#36B37E",
+                  primary: "black",
+                },
+              })}
             />
           </label>
           {Object.keys(redTeam).map(role => (
