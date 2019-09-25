@@ -8,7 +8,8 @@ import { gql } from "apollo-boost";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import { endpoint, prodEndpoint } from "../config";
-import CreatableSelect from "react-select/";
+import CreatableSelect from "react-select";
+import Select from "react-select";
 
 const ALL_TEAMS_QUERY = gql`
   query ALL_TEAMS_QUERY {
@@ -484,38 +485,6 @@ function AddMatch() {
         <Division direction="left">
           Blue Side
           <label players="true" htmlFor="blueTeamName">
-            <CreatableSelect
-              isClearable
-              options={selectableTeams}
-              onChange={(opt, meta) => setBlueTeamValue(opt.value)}
-              value={blueTeamValue}
-              isClearable
-              createOptionPosition={"first"}
-              closeMenuOnSelect={false}
-              hideSelectedOptions={false}
-              formatCreateLabel={() => `Add`}
-              theme={theme => ({
-                ...theme,
-                colors: {
-                  ...theme.colors,
-                  text: "red",
-                  primary25: "hotpink",
-                  primary: "black",
-                },
-              })}
-            />
-            <CreatableSelect
-              isClearable
-              value={blueTeamValue}
-              onChange={option => setBlueTeamValue(option)}
-              options={selectableTeams}
-              placeholder={"Select Team. . ."}
-              createOptionPosition={"first"}
-              closeMenuOnSelect={false}
-              hideSelectedOptions={false}
-              formatCreateLabel={() => `Add`}
-            />
-
             <input
               type="text"
               id="blueTeamName"
