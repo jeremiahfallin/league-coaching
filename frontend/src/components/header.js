@@ -1,6 +1,6 @@
-import { Link } from "gatsby"
-import React from "react"
-import styled from "styled-components"
+import { Link } from "gatsby";
+import React from "react";
+import styled from "styled-components";
 
 const Logo = styled.h1`
   font-size: 2rem;
@@ -19,7 +19,7 @@ const Logo = styled.h1`
     margin: 0;
     text-align: center;
   }
-`
+`;
 
 const StyledHeader = styled.header`
   .bar {
@@ -38,7 +38,7 @@ const StyledHeader = styled.header`
     grid-template-columns: 1fr auto;
     border-bottom: 1px solid ${props => props.theme.lightgrey};
   }
-`
+`;
 
 const Header = () => (
   <StyledHeader>
@@ -48,10 +48,9 @@ const Header = () => (
         <Link to="/">League Coaching</Link>
         <Link to="/addmatch">Add New Match</Link>
         <Link to="/viewteam">View Team Info</Link>
-        <Link to="/viewteams">View Teams Info</Link>
       </Logo>
     </div>
   </StyledHeader>
-)
+);
 
-export default Header
+export default Header;
