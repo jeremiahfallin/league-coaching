@@ -1,20 +1,20 @@
-import React from "react"
-import styled from "styled-components"
+import React from "react";
+import styled from "styled-components";
 
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-`
+`;
 
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const Box = styled.div`
   flex: 1;
   margin: 4px;
-`
+`;
 
 function PlayerInfo({ playerData, setPlayerData, position }) {
   const {
@@ -26,16 +26,27 @@ function PlayerInfo({ playerData, setPlayerData, position }) {
     assists,
     damage,
     gold,
-  } = playerData[position]
+  } = playerData[position];
 
   const handlePlayerDataChange = e => {
-    const { name, value } = e.target
+    e.persist();
+    const { name, value } = e.target;
 
     setPlayerData({
       ...playerData,
       [position]: { ...playerData[position], [name]: value },
-    })
-  }
+    });
+  };
+
+  const handleRoleChange = e => {
+    e.persist();
+    const { value } = e.target;
+
+    setPlayerData({
+      ...playerData,
+      [position]: { ...playerData[position], ["role"]: value },
+    });
+  };
 
   return (
     <Column>
@@ -54,13 +65,22 @@ function PlayerInfo({ playerData, setPlayerData, position }) {
           value={champion}
           handler={handlePlayerDataChange}
         />
-        <InfoBox
-          title={"Role"}
-          type={"text"}
-          name={"role"}
-          value={role}
-          handler={handlePlayerDataChange}
-        />
+        <Box>
+          <label htmlFor={"Role"}>
+            {"Role"}
+            <select
+              name={role}
+              value={role}
+              onChange={e => handleRoleChange(e)}
+            >
+              <option value="top">Top</option>
+              <option value="jungle">Jungle</option>
+              <option value="mid">Mid</option>
+              <option value="carry">Carry</option>
+              <option value="support">Support</option>
+            </select>
+          </label>
+        </Box>
       </Row>
 
       <Row>
@@ -103,7 +123,7 @@ function PlayerInfo({ playerData, setPlayerData, position }) {
         />
       </Row>
     </Column>
-  )
+  );
 }
 
 const InfoBox = ({ title, type, name, value, handler }) => {
@@ -121,7 +141,7 @@ const InfoBox = ({ title, type, name, value, handler }) => {
         />
       </label>
     </Box>
-  )
-}
+  );
+};
 
-export default PlayerInfo
+export default PlayerInfo;
