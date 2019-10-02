@@ -482,6 +482,7 @@ function AddMatch() {
           <label players="true" htmlFor="blueTeamName">
             <CreatableSelect
               value={blueTeamValue}
+              isRequired
               onChange={option => {
                 setBlueTeamValue(option);
                 setTeamNames({ ...teamNames, blue: option.value });
@@ -522,6 +523,7 @@ function AddMatch() {
           <label player="true" htmlFor="redTeam">
             <CreatableSelect
               value={redTeamValue}
+              isRequired
               onChange={option => {
                 setRedTeamValue(option);
                 setTeamNames({ ...teamNames, red: option.value });

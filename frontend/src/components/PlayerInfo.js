@@ -133,6 +133,7 @@ const InfoBox = ({ title, type, name, value, handler }) => {
         {title}
         <input
           type={type}
+          isRequired
           id={name}
           name={name}
           placeholder={title}
