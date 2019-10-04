@@ -426,6 +426,7 @@ function ViewTeam() {
             {Object.entries(topThree[player.value]).map(([key, value]) => (
               <ChampionGrid key={"Row" + String(key)}>
                 <Box key={"box" + String(player.value)}>
+                  {console.log(key)}
                   <Images
                     src={`images/${key}.png`}
                     key={"Image" + String(key)}
