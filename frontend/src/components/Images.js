@@ -7,7 +7,6 @@ function renderImage(file) {
 }
 
 const Images = function(props) {
-  console.log(props);
   return (
     <StaticQuery
       query={graphql`

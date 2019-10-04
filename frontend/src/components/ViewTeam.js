@@ -265,6 +265,7 @@ function ViewTeam() {
             champions = {
               ...champions,
               [summoner]: {
+                ...champions[summoner],
                 [champion]: {
                   ["played"]: champions[summoner][champion]["played"] + 1,
                   ["kills"]:
@@ -425,8 +426,8 @@ function ViewTeam() {
             </KDAGrid>
             {Object.entries(topThree[player.value]).map(([key, value]) => (
               <ChampionGrid key={"Row" + String(key)}>
+                {console.log(topThree)}
                 <Box key={"box" + String(player.value)}>
-                  {console.log(topThree)}
                   <Images
                     src={`images/${key}.png`}
                     key={"Image" + String(key)}
