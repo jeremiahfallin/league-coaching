@@ -426,7 +426,6 @@ function ViewTeam() {
             </KDAGrid>
             {Object.entries(topThree[player.value]).map(([key, value]) => (
               <ChampionGrid key={"Row" + String(key)}>
-                {console.log(topThree)}
                 <Box key={"box" + String(player.value)}>
                   <Images
                     src={`images/${key}.png`}
