@@ -180,7 +180,8 @@ const Division = styled.div`
 
 const Row = styled.div`
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+  align-self: ${props => props.alignment};
   width: 100%;
 `;
 
@@ -245,7 +246,6 @@ function AddMatch() {
     let url = process.env.NODE_ENV === "development" ? endpoint : prodEndpoint;
     const response = await fetch(`${url}/addmatch?match=${match}`);
     if (response.status !== 200) {
-      setIsLoaded(false);
       throw Error(body.message);
     }
 
@@ -254,12 +254,11 @@ function AddMatch() {
       delete baseStats.summonerName;
       setBlueTeam({ ...teamPlayerInfo });
       setRedTeam({ ...teamPlayerInfo });
-      setIsLoaded(false);
     }
     const apiData = body["data"];
 
     // 3102504145
-    if (apiData) {
+    if (apiData && apiData["participants"].length === 10) {
       console.log(apiData);
       let blueLaneInfo = {};
       let redLaneInfo = {};
@@ -300,21 +299,8 @@ function AddMatch() {
         duration: apiData.gameDuration,
         winner: apiData.teams[0]["win"],
       });
-
-      setIsLoaded(false);
     }
-  };
-
-  const handleBlueTeamDataChange = e => {
-    const { value } = e.target;
-
-    setTeamNames({ ...teamNames, blue: value });
-  };
-
-  const handleRedTeamDataChange = e => {
-    const { value } = e.target;
-
-    setTeamNames({ ...teamNames, red: value });
+    setIsLoaded(false);
   };
 
   const getMatch = debounce(async e => {
@@ -329,11 +315,13 @@ function AddMatch() {
 
   useEffect(() => {
     let teamsArray = [];
-    for (let i in allTeamNames.teams) {
-      teamsArray.push({
-        value: allTeamNames.teams[i].name,
-        label: allTeamNames.teams[i].name,
-      });
+    if (allTeamNames) {
+      for (let i in allTeamNames.teams) {
+        teamsArray.push({
+          value: allTeamNames.teams[i].name,
+          label: allTeamNames.teams[i].name,
+        });
+      }
     }
     setSelectableTeams(teamsArray);
   }, [allTeamNames]);
@@ -381,6 +369,10 @@ function AddMatch() {
           })
         );
 
+        if (matchInfo.winner === "") {
+          setMatchInfo({ ...matchInfo, winner: "Win" });
+        }
+
         let match = await upsertMatch({
           variables: {
             id: matchID,
@@ -420,11 +412,11 @@ function AddMatch() {
                 match: matchID,
                 role: blueTeam[player]["role"],
                 champion: blueTeam[player]["champion"],
-                kills: blueTeam[player]["kills"],
-                deaths: blueTeam[player]["deaths"],
-                assists: blueTeam[player]["assists"],
-                gold: blueTeam[player]["gold"],
-                damage: blueTeam[player]["damage"],
+                kills: parseInt(blueTeam[player]["kills"], 10),
+                deaths: parseInt(blueTeam[player]["deaths"], 10),
+                assists: parseInt(blueTeam[player]["assists"], 10),
+                gold: parseInt(blueTeam[player]["gold"], 10),
+                damage: parseInt(blueTeam[player]["damage"], 10),
               },
             });
           })
@@ -449,15 +441,16 @@ function AddMatch() {
                 match: matchID,
                 role: redTeam[player]["role"],
                 champion: redTeam[player]["champion"],
-                kills: redTeam[player]["kills"],
-                deaths: redTeam[player]["deaths"],
-                assists: redTeam[player]["assists"],
-                gold: redTeam[player]["gold"],
-                damage: redTeam[player]["damage"],
+                kills: parseInt(redTeam[player]["kills"], 10),
+                deaths: parseInt(redTeam[player]["deaths"], 10),
+                assists: parseInt(redTeam[player]["assists"], 10),
+                gold: parseInt(redTeam[player]["gold"], 10),
+                damage: parseInt(redTeam[player]["damage"], 10),
               },
             });
           })
         );
+        setMatchID(0);
       }}
     >
       <Row>
@@ -471,6 +464,22 @@ function AddMatch() {
               e.persist();
               setIsLoaded(true);
               getMatch(e);
+            }}
+          />
+        </label>
+        <label htmlFor="duration">
+          <input
+            type="number"
+            id="duration"
+            name="duration"
+            value={matchInfo.duration}
+            placeholder="Match duration (seconds)"
+            onChange={e => {
+              e.persist();
+              setMatchInfo({
+                ...matchInfo,
+                duration: parseInt(e.target.value, 10),
+              });
             }}
           />
         </label>

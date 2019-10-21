@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useStaticQuery, graphql } from "gatsby";
 
 const Row = styled.div`
   display: flex;
@@ -17,6 +18,20 @@ const Box = styled.div`
 `;
 
 function PlayerInfo({ playerData, setPlayerData, position }) {
+  const [championsArray, setChampionsArray] = useState([]);
+  const champions = useStaticQuery(graphql`
+    {
+      allFile(filter: { extension: { eq: "png" } }) {
+        edges {
+          node {
+            publicURL
+            name
+          }
+        }
+      }
+    }
+  `);
+
   const {
     summonerName,
     champion,
@@ -38,6 +53,16 @@ function PlayerInfo({ playerData, setPlayerData, position }) {
     });
   };
 
+  const handleChampionChange = e => {
+    e.persist();
+    const { value } = e.target;
+
+    setPlayerData({
+      ...playerData,
+      [position]: { ...playerData[position], ["champion"]: value },
+    });
+  };
+
   const handleRoleChange = e => {
     e.persist();
     const { value } = e.target;
@@ -47,6 +72,15 @@ function PlayerInfo({ playerData, setPlayerData, position }) {
       [position]: { ...playerData[position], ["role"]: value },
     });
   };
+
+  useEffect(() => {
+    let arr = [];
+    champions.allFile.edges.map((file, index) => {
+      arr.push(file.node.name);
+    });
+    arr.sort();
+    setChampionsArray(arr);
+  }, []);
 
   return (
     <Column>
@@ -58,13 +92,24 @@ function PlayerInfo({ playerData, setPlayerData, position }) {
         handler={handlePlayerDataChange}
       />
       <Row>
-        <InfoBox
-          title={"Champion"}
-          type={"text"}
-          name={"champion"}
-          value={champion}
-          handler={handlePlayerDataChange}
-        />
+        <Box>
+          <label htmlFor={"Champion"}>
+            {"Champion"}
+            <select
+              name={champion}
+              value={champion}
+              onChange={e => handleChampionChange(e)}
+            >
+              {championsArray.map((name, index) => {
+                return (
+                  <option key={index} value={name}>
+                    {name}
+                  </option>
+                );
+              })}
+            </select>
+          </label>
+        </Box>
         <Box>
           <label htmlFor={"Role"}>
             {"Role"}
@@ -133,7 +178,7 @@ const InfoBox = ({ title, type, name, value, handler }) => {
         {title}
         <input
           type={type}
-          isRequired
+          required
           id={name}
           name={name}
           placeholder={title}

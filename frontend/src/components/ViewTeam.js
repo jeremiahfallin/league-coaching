@@ -87,11 +87,11 @@ const Box = styled.div`
 function ViewTeam() {
   const [selectableTeams, setSelectableTeams] = useState([]);
   const [selectablePlayers, setSelectablePlayers] = useState([
-    { value: "Summoner One" },
-    { value: "Summoner Two" },
-    { value: "Summoner Three" },
-    { value: "Summoner Four" },
-    { value: "Summoner Five" },
+    { value: "Summoner One", label: "Summoner One" },
+    { value: "Summoner Two", label: "Summoner Two" },
+    { value: "Summoner Three", label: "Summoner Three" },
+    { value: "Summoner Four", label: "Summoner Four" },
+    { value: "Summoner Five", label: "Summoner Five" },
   ]);
   const [creatableTeamValue, setCreatableTeamValue] = useState("");
   const [teamName, setTeamName] = useState("");
@@ -363,6 +363,7 @@ function ViewTeam() {
 
   return (
     <>
+      {console.log(topThree)}
       <Select
         value={creatableTeamValue}
         onChange={option => {
