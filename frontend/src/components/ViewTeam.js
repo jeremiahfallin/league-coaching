@@ -154,7 +154,9 @@ function ViewTeam() {
   const { loading, data } = useQuery(TEAM_QUERY, {
     variables: { name: teamName },
   });
-  const { data: allTeamNames } = useQuery(ALL_TEAMS_QUERY);
+  const { data: allTeamNames } = useQuery(ALL_TEAMS_QUERY, {
+    pollInterval: 5000,
+  });
 
   useEffect(() => {
     topChampions();
